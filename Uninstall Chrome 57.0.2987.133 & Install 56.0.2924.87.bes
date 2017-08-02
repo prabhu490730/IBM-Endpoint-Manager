@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Fixlet>
+		<Title><![CDATA[Uninstall Chrome 57.0.2987.133 & Install 56.0.2924.87]]></Title>
+		<Description><![CDATA[&lt;enter a description of the problem and the corrective action here&gt; ]]></Description>
+		<Relevance><![CDATA[(version of client >= "6.0.0.0") AND ((exists true whose (if true then (exists (if (exists true whose (if true then exists subnet addresses of ip interfaces of network else false)) then (subnet addresses whose (it as string != "0.0.0.0") of ip interfaces whose (loopback of it = false) of network) else nothing) whose (it as string as lowercase contains "192.168.130." as lowercase)) else false)) OR (exists true whose (if true then (exists (if (exists true whose (if true then exists subnet addresses of ip interfaces of network else false)) then (subnet addresses whose (it as string != "0.0.0.0") of ip interfaces whose (loopback of it = false) of network) else nothing) whose (it as string as lowercase contains "192.168.131." as lowercase)) else false)) OR (exists true whose (if true then (exists (if (exists true whose (if true then exists subnet addresses of ip interfaces of network else false)) then (subnet addresses whose (it as string != "0.0.0.0") of ip interfaces whose (loopback of it = false) of network) else nothing) whose (it as string as lowercase contains "192.168.132." as lowercase)) else false)) OR (exists true whose (if true then (exists (if (exists true whose (if true then exists subnet addresses of ip interfaces of network else false)) then (subnet addresses whose (it as string != "0.0.0.0") of ip interfaces whose (loopback of it = false) of network) else nothing) whose (it as string as lowercase contains "192.168.133." as lowercase)) else false)) OR (exists true whose (if true then (exists (if (exists true whose (if true then exists subnet addresses of ip interfaces of network else false)) then (subnet addresses whose (it as string != "0.0.0.0") of ip interfaces whose (loopback of it = false) of network) else nothing) whose (it as string as lowercase contains "192.168.134." as lowercase)) else false)) OR (exists true whose (if true then (exists (if (exists true whose (if true then exists subnet addresses of ip interfaces of network else false)) then (subnet addresses whose (it as string != "0.0.0.0") of ip interfaces whose (loopback of it = false) of network) else nothing) whose (it as string as lowercase contains "192.168.135." as lowercase)) else false)) OR (exists true whose (if true then (exists (if (exists true whose (if true then exists subnet addresses of ip interfaces of network else false)) then (subnet addresses whose (it as string != "0.0.0.0") of ip interfaces whose (loopback of it = false) of network) else nothing) whose (it as string as lowercase contains "192.168.136." as lowercase)) else false)))]]></Relevance>
+		<Relevance>exist folder "C:\Program Files (x86)\Google\Chrome\Application\57.0.2987.133"</Relevance>
+		<Category></Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2017-04-05</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Wed, 05 Apr 2017 13:46:34 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">waithidden "C:\Program Files (x86)\Google\Chrome\Application\57.0.2987.133\Installer\setup.exe"--uninstall --multi-install --chrome --system-level --force-uninstall
+
+prefetch 5ca195b1529536956d7379a053b7f9d58ea5195b sha1:5ca195b1529536956d7379a053b7f9d58ea5195b size:50332587 http://HEMERA.mynt.myntra.com:52311/Uploads/5ca195b1529536956d7379a053b7f9d58ea5195b/ChromeStandaloneSetup64.exe.tmp sha256:0f294001acf2a2a6a4c96a8878a4a70b131b0a080af4f1df8862336ae13e7b92
+extract 5ca195b1529536956d7379a053b7f9d58ea5195b
+wait __Download\ChromeStandaloneSetup64.exe /silent /install
+
+
+copy "C:\Program Files (x86)\Google\Update\GoogleUpdate.exe" "C:\Program Files (x86)\Google\Update\GoogleUpdate.info"
+
+waithidden taskkill /F /T /IM GoogleUpdate.exe 
+delete "C:\Program Files (x86)\Google\Update\GoogleUpdate.exe"</ActionScript>
+			<SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+		</DefaultAction>
+	</Fixlet>
+</BES>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Task>
+		<Title>Install Adobe Product Suite App- Mac OS X - Testing</Title>
+		<Description><![CDATA[Install Adobe Product Suite for Mac OS X &nbsp;through <STRONG><FONT color=#ff0000>Apple Scripting</FONT></STRONG>]]></Description>
+		<Relevance><![CDATA[((system version >= "10.3" AND system version < "10.4") OR (system version >= "10.4" AND system version < "10.5") OR (system version >= "10.5" AND system version < "10.6") OR (system version >= "10.6" AND system version < "10.7") OR (system version >= "10.7" AND system version < "10.8") OR (system version >= "10.8" AND system version < "10.9") OR (system version >= "10.9" AND system version < "10.10") OR (system version >= "10.10" AND system version < "10.11")OR (system version >= "10.11" AND system version <= "10.12")) AND TRUE]]></Relevance>
+		<Category>Adobe Suite Installation</Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2017-01-10</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Tue, 10 Jan 2017 05:51:34 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-AppleScript">sudo installer -store -pkg "\\192.168.20.195\e$\Prt\MAC_Adobe_CC_DS_18.1\Build\MAC_Adobe_CC_DS_18.1_Install.pkg" -target /</ActionScript>
+			<SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+		</DefaultAction>
+	</Task>
+</BES>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Task>
+		<Title>Uninstall FortiClient- Mac OS X </Title>
+		<Description><![CDATA[Uninstall FortiClient from <STRONG>Mac OS X </STRONG>&nbsp; ]]></Description>
+		<Relevance>exists folder "/Applications/FortiClient.app"</Relevance>
+		<Category>Uninstallation</Category>
+		<DownloadSize>0</DownloadSize>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-10-18</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Mon, 24 Oct 2016 11:52:03 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">//Uninstall FortiClient
+
+wait /bin/sh -c "cd '/Library/Application Support/Fortinet/FortiClient'; ./uninstall"
+wait /bin/rm -rfd "/Library/Application Support/Fortinet"
+wait launchctl unload "/Library/LaunchDaemons/com.fortinet.forticlient.appfw.plist"
+wait launchctl unload "/Library/LaunchDaemons/com.fortinet.forticlient.epctrl.plist"
+wait launchctl unload "/Library/LaunchDaemons/com.fortinet.forticlient.fmon.plist"
+wait launchctl unload "/Library/LaunchDaemons/com.fortinet.forticlient.fssoagent_launchdaemon.plist"
+wait launchctl unload "/Library/LaunchDaemons/com.fortinet.forticlient.servctl.plist"
+wait launchctl unload "/Library/LaunchDaemons/com.fortinet.forticlient.vpn.plist"
+wait launchctl unload "/Library/LaunchDaemons/com.fortinet.forticlient.wf.plist"
+wait launchctl unload "/Library/LaunchAgents/com.fortinet.forticlient.fssoagent_launchagent.plist"
+
+//Stop Process........................!!!
+wait killall FortiClientAgent
+wait killall FortiClient
+
+wait /bin/sh -c "cd '/Library/Application Support/Fortinet/FortiClient'; ./uninstall"
+wait /bin/rm -rfd "/Library/Application Support/Fortinet/FortiClient"
+if {exists folder "/Applications/FortiClient.app"}
+    wait /bin/rm -rfd "/Applications/FortiClient.app"
+endif</ActionScript>
+		</DefaultAction>
+	</Task>
+</BES>

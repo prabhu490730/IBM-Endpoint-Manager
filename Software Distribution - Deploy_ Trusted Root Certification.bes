@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Task>
+		<Title>Software Distribution - Deploy: Trusted Root Certification</Title>
+		<Description><![CDATA[This task will deploy: Trusted Root Certification.<BR><BR>This task is applicable on: Windows 7 and Windows 7 x64. ]]></Description>
+		<Relevance>((name of it = "Win7" AND NOT x64 of it) OR (name of it = "Win7" AND x64 of it)) of operating system AND TRUE</Relevance>
+		<Category>Software Distribution</Category>
+		<DownloadSize>209</DownloadSize>
+		<Source>Software Distribution Wizard</Source>
+		<SourceID></SourceID>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<MIMEField>
+			<Name>x-fixlet-source</Name>
+			<Value>Software Distribution Wizard</Value>
+		</MIMEField>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Wed, 22 Feb 2017 11:42:01 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here </Link>
+				<PostLink>to initiate the deployment process.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[prefetch c76aa4a2a237eb1473c6c5a02878791b138135ab sha1:c76aa4a2a237eb1473c6c5a02878791b138135ab size:209 http://HEMERA.mynt.myntra.com:52311/Uploads/c76aa4a2a237eb1473c6c5a02878791b138135ab/ImplementCertificate.bat.tmp sha256:48681ca3c43266a1787a8c0157cb27cb68d20998869c061794eda3ef5d0b79b1
+extract c76aa4a2a237eb1473c6c5a02878791b138135ab
+wait "{pathname of system folder & "\cmd.exe"}" /Q /C "{(pathname of client folder of current site) & "\__Download\ImplementCertificate.bat"}"
+]]></ActionScript>
+			<SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+		</DefaultAction>
+	</Task>
+</BES>

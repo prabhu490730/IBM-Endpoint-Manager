@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Task>
+		<Title>Deploy Adobe PhotoShop CC 2017.0.1- Mac OS X </Title>
+		<Description><![CDATA[This task will deploy Adobe PhotoShop CC 2017.0.1 <BR><BR>This task is applicable on Mac OS X 10.7, Mac OS X 10.8, Mac OS X 10.9, Mac OS X 10.10 and Above ]]></Description>
+		<Relevance><![CDATA[((system version >= "10.7" AND system version < "10.8") OR (system version >= "10.8" AND system version < "10.9") OR (system version >= "10.9" AND system version < "10.10") OR (system version >= "10.10" AND system version < "10.11")OR (system version >= "10.11" AND system version <= "10.12")) AND TRUE]]></Relevance>
+		<Category>Software Deployment</Category>
+		<DownloadSize>1395864371</DownloadSize>
+		<Source>Mac Software Deployment Wizard</Source>
+		<SourceID></SourceID>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<MIMEField>
+			<Name>x-fixlet-source</Name>
+			<Value>Mac Software Deployment Wizard</Value>
+		</MIMEField>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Tue, 24 Jan 2017 09:29:18 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to initiate the deployment process.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[prefetch AdobePhotoShopCC2017dmg.tmp sha1:93345fa8e7a35e27ee02109af3a7d0d81b392704 size:1575530268 http://HEMERA.mynt.myntra.com:52311/Uploads/93345fa8e7a35e27ee02109af3a7d0d81b392704/AdobePhotoShopCC2017dmg.tmp sha256:72f62ce0ae2f326feee95700c637b809ff18f97ee665231e6372ccc51a24f917
+
+extract AdobePhotoShopCC2017dmg.tmp
+
+wait sh -c "rm '/tmp/AdobePhotoShopCC2017.dmg'"
+
+move "{posix path of file "AdobePhotoShopCC2017.dmg" of folder "__Download" of client folder of current site}" "/tmp/AdobePhotoShopCC2017.dmg"
+
+wait hdiutil attach -quiet -private -mountpoint "/tmp/BESMNTPT37450284876827017" "/tmp/AdobePhotoShopCC2017.dmg"
+
+if {not active of action OR (exists file whose (name of it ends with ".mpkg" OR  name of it ends with ".pkg") of it) of folder ("/tmp/" & "BESMNTPT37450284876827017")}
+
+wait installer -pkg "{(if (exists file whose (name of it ends with ".mpkg") of it) then (pathname of file whose (name of it ends with ".mpkg") of it) else (pathname of file whose (name of it ends with ".pkg") of it)) of folder ("/tmp/" & "BESMNTPT37450284876827017") }" -target /
+
+elseif {(exists folder whose (name of it ends with ".mpkg" OR  name of it ends with ".pkg") of it) of folder ("/tmp/" & "BESMNTPT37450284876827017")}
+
+wait installer -pkg "{(if (exists folder whose (name of it ends with ".mpkg") of it) then (pathname of folder whose (name of it ends with ".mpkg") of it) else (pathname of folder whose (name of it ends with ".pkg") of it)) of folder ("/tmp/" & "BESMNTPT37450284876827017") }" -target /
+
+elseif {exists folder whose (name of it ends with ".app" AND exists folder "Contents" whose (exist file "PkgInfo" whose (exists line whose (it = "APPLVISX") of it) of it) of it) of folder ("/tmp/" & "BESMNTPT37450284876827017")}
+
+appendfile tell application "{name of folder whose (name of it ends with ".app") of folder ("/tmp/" & "BESMNTPT37450284876827017")}"
+appendfile DoInstall
+appendfile quit
+appendfile end tell
+
+wait /bin/sh -c "iconv -f UTF-8 -t macintosh {concatenation "\ " of substrings separated by " " of pathname of client folder of current site}/__appendfile > {concatenation "\ " of substrings separated by " " of pathname of client folder of current site}/doinstall.txt"
+
+run "{posix path of framework folder & "/Carbon.framework/Versions/Current/Support/LaunchCFMApp"}" "{(pathname of parent folder of it & "/" & name of it & "/Contents/MacOSClassic/" & preceding text of first ".app" of name of it) of folder whose (name of it ends with ".app") of folder ("/tmp/" & "BESMNTPT37450284876827017")}"
+
+wait /bin/sh -c "osascript {concatenation "\ " of substrings separated by " " of pathname of client folder of current site}/doinstall.txt"
+
+elseif {exists folder whose (name of it ends with ".app") of folder ("/tmp/" & "BESMNTPT37450284876827017")}
+
+wait sh -c "rm '/Applications/{name whose (it ends with ".app") of folders of folder ("/tmp/" & "BESMNTPT37450284876827017")}'"
+wait cp -Rfp "{pathname of folder whose (name of it ends with ".app") of folder ("/tmp/" & "BESMNTPT37450284876827017")}" "/Applications"
+
+else
+
+wait cp -Rpn /tmp/BESMNTPT37450284876827017/* /Applications
+
+endif
+
+wait /bin/sh -c "hdiutil detach -force `mount | grep /tmp/BESMNTPT37450284876827017 | cut -f 1 -d \ | cut -f 3 -d / | head -1`"
+wait sh -c "rm '/tmp/AdobePhotoShopCC2017.dmg'"
+]]></ActionScript>
+			<SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+		</DefaultAction>
+	</Task>
+</BES>

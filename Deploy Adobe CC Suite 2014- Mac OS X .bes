@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Task>
+		<Title>Deploy Adobe CC Suite 2014- Mac OS X </Title>
+		<Description><![CDATA[This task will deploy Adobe CC Suite 2014 <BR><BR>This task is applicable on Mac OS X 10.3, Mac OS X 10.4, Mac OS X 10.5, Mac OS X 10.6, Mac OS X 10.7, Mac OS X 10.8, Mac OS X 10.9, Mac OS X 10.10 and later ]]></Description>
+		<Relevance><![CDATA[((system version >= "10.3" AND system version < "10.4") OR (system version >= "10.4" AND system version < "10.5") OR (system version >= "10.5" AND system version < "10.6") OR (system version >= "10.6" AND system version < "10.7") OR (system version >= "10.7" AND system version < "10.8") OR (system version >= "10.8" AND system version < "10.9") OR (system version >= "10.9" AND system version < "10.10") OR (system version >= "10.10" AND system version < "10.11")OR (system version >= "10.11" AND system version <= "10.12")) AND TRUE]]></Relevance>
+		<Category>Software Deployment</Category>
+		<DownloadSize>5368709120</DownloadSize>
+		<Source>Mac Software Deployment Wizard</Source>
+		<SourceID>ADB 2014 Suite</SourceID>
+		<SourceSeverity>Medium</SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<MIMEField>
+			<Name>x-fixlet-source</Name>
+			<Value>Mac Software Deployment Wizard</Value>
+		</MIMEField>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Wed, 11 Jan 2017 07:01:36 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to initiate the deployment process.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch MAC_Adobe_CC_DS_181_Install.pkg.tmp sha1:8a2fd26dcc2a64c03860f4bba4b038ea22868c0f size:293970580 http://HEMERA.mynt.myntra.com:52311/Uploads/8a2fd26dcc2a64c03860f4bba4b038ea22868c0f/MAC_Adobe_CC_DS_181_Install.pkg.tmp sha256:6d5e15b7cfc8de554dc47629d9bfc776c07500e04e330986e3bc396e28df4459
+extract MAC_Adobe_CC_DS_181_Install.pkg.tmp
+wait installer -pkg "__Download/MAC_Adobe_CC_DS_181_Install.pkg.tmp" -target /
+</ActionScript>
+			<SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+		</DefaultAction>
+	</Task>
+</BES>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Fixlet>
+		<Title>Deploy: Printer-mynt_akra_ffptr</Title>
+		<Description><![CDATA[&lt;This fixlet will add Network printer on client machine&gt; ]]></Description>
+		<Relevance>((name of it = "Win7" AND x64 of it)) of operating system AND TRUE</Relevance>
+		<Category></Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-10-28</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Wed, 02 Nov 2016 11:40:45 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch RunAsCurrentUser-2.0.3.1.exe sha1:ee47505ebfb2790b9da8a20ed70e67158e9753d0 size:342528 http://software.bigfix.com/download/bes/util/RunAsCurrentUser-2.0.3.1.exe
+rundetached __Download\RunAsCurrentUser-2.0.3.1.exe --w --q cmd.exe /c "rundll32 printui.dll PrintUIEntry /in /n \\192.168.20.155\mynt_akra_ffptr"</ActionScript>
+			<SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+		</DefaultAction>
+	</Fixlet>
+</BES>

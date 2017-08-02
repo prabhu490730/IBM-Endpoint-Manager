@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Task>
+		<Title>OS Information- PowerShell Scripting (Gather Information on Root Server)</Title>
+		<Description>OS Information </Description>
+		<GroupRelevance JoinByIntersection="false">
+			<SearchComponentPropertyReference PropertyName="Computer Name" Comparison="Contains">
+				<SearchText>IT-PRABHATK</SearchText>
+				<Relevance>exists (computer name) whose (it as string as lowercase contains "IT-PRABHATK" as lowercase)</Relevance>
+			</SearchComponentPropertyReference>
+			<SearchComponentPropertyReference PropertyName="Computer Name" Comparison="Contains">
+				<SearchText>IT-SreejithK</SearchText>
+				<Relevance>exists (computer name) whose (it as string as lowercase contains "IT-SreejithK" as lowercase)</Relevance>
+			</SearchComponentPropertyReference>
+		</GroupRelevance>
+		<Category></Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2017-01-20</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Wed, 08 Feb 2017 10:04:45 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">//Test Code before Deployment
+
+delete \\hemera\E\Prt\bigfix_test_powershell.txt
+waithidden powershell -ExecutionPolicy Bypass -command "Get-WmiObject -Class Win32_OperatingSystem -ComputerName . | Select-Object -Property [a-z]* | out-file \\hemera\E\Prt\Bigfix_OS_Information_powershell.txt"
+continue if{ exists (it) whose(it as lowercase starts with "name") of (concatenation of characters whose (it != "%00") of it) whose(it as trimmed string != "") of lines of files "C:\Bigfix_OS_Information_powershell.txt" }
+
+// The exit code is the major version of powershell or -1 if it cannot find the version #
+exit { (unique value of (it as integer) of preceding texts of firsts "." of (it as string) of pads of (it as trimmed string as version) of following texts of firsts ":" of (it) whose(it as lowercase starts with "version") of (concatenation of characters whose (it != "%00") of it) whose(it as trimmed string != "") of lines of files "C:\Bigfix_OS_Information_powershell.txt") | -1 }
+</ActionScript>
+			<SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+		</DefaultAction>
+	</Task>
+</BES>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Analysis>
+		<Title>BES Relay Running Status- Prt</Title>
+		<Description>This analyses will give you the information of BES Relay Not Running </Description>
+		<Relevance>exists service "BESRelay"</Relevance>
+		<Source>Internal</Source>
+		<SourceReleaseDate>2016-11-16</SourceReleaseDate>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Wed, 16 Nov 2016 11:25:31 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<Property Name="BES Relay Running Status- Check" ID="1">not exists running service "BESRelay"</Property>
+	</Analysis>
+</BES>

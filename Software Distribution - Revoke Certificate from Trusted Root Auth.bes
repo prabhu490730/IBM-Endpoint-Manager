@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Task>
+		<Title>Software Distribution - Revoke Certificate from Trusted Root Auth</Title>
+		<Description><![CDATA[This task will deploy: Revoke Certificate from Trusted Root Auth.<BR><BR>This task is applicable on: Windows 7 and Windows 7 x64. ]]></Description>
+		<Relevance>((name of it = "Win7" AND NOT x64 of it) OR (name of it = "Win7" AND x64 of it)) of operating system AND TRUE</Relevance>
+		<Category>Software Distribution</Category>
+		<DownloadSize>191</DownloadSize>
+		<Source>Software Distribution Wizard</Source>
+		<SourceID></SourceID>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<MIMEField>
+			<Name>x-fixlet-source</Name>
+			<Value>Software Distribution Wizard</Value>
+		</MIMEField>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Wed, 22 Feb 2017 12:40:50 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here </Link>
+				<PostLink>to initiate the deployment process.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[prefetch 7fef5f7dbc4b57e477d0a7701acfdec4c1248c4c sha1:7fef5f7dbc4b57e477d0a7701acfdec4c1248c4c size:191 http://HEMERA.mynt.myntra.com:52311/Uploads/7fef5f7dbc4b57e477d0a7701acfdec4c1248c4c/RevokeCertificate.bat.tmp sha256:bd1daeef80ff6424e5995eaf622aa327db2b885a926821a7ea97d91aa2efa637
+extract 7fef5f7dbc4b57e477d0a7701acfdec4c1248c4c
+wait "{pathname of system folder & "\cmd.exe"}" /Q /C "{(pathname of client folder of current site) & "\__Download\RevokeCertificate.bat"}"
+]]></ActionScript>
+			<SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+		</DefaultAction>
+	</Task>
+</BES>

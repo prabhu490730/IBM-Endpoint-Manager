@@ -1,0 +1,247 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<BES xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='BES.xsd'>
+	<Fixlet>
+        <Title>Install BES Console Right-Click Options (Updated)</Title>
+        <Description><![CDATA[<TABLE>
+<TBODY>
+<TR>
+<TD>
+<P>&nbsp; This task will install additional functionality for the BES Console that will allow you to right-click on a computer in your BES Console and perform common tasks directly on that computer.&nbsp;The new&nbsp;options will appear in the drop-down list when you right-click<STRONG> </STRONG>on a computer in the BES Console.</P>
+<H4>Windows Remote Management</H4>
+<P>&nbsp; The following BES Console right-click options will only be available on Windows computer, the options will be grayed-out for non-Windows systems.&nbsp; These options are designed to help perform direct management of computers quickly.&nbsp; You must to be logged into Windows with an NT Authenticated account with permissions to computers&nbsp;for these options to work.</P>
+<UL>
+<LI><STRONG>Computer Management Console</STRONG> - Opens the Windows Management Console for the selected computer with access to the Services, Event Log and other common management snap-ins. 
+<LI><STRONG>Browse Computer</STRONG> - Opens Windows explorer for the selected computer with access to network shares.&nbsp; Also allows you to quickly get to the C$ share from here. 
+<LI><STRONG>Remote Desktop</STRONG> - Opens a Windows remote desktop connection for the computer.&nbsp; Computers must report in '<EM>True</EM>' for the 'Remote Desktop Enabled' property for this option to be used.</LI></UL>
+<H4>BES Console Tools</H4>
+<P>The following BES Console right-click options are designed to make using the BES Console and diagnosing issues easier.</P>
+<UL>
+<LI><STRONG>Trace Route</STRONG> - Opens a command window and runs a trace route to the selected computer(s). 
+<LI><STRONG>Ping IP(s)</STRONG> - Opens a command window and runs a ping command for each IP Address on the selected computer(s). 
+<LI><STRONG>Copy Hostname</STRONG> - Copies the selected computer(s) hostname into your paste buffer.&nbsp; Press&nbsp;CRTL-V to paste the hostnames into a text editor after selecting the option. 
+<LI><STRONG>*Open&nbsp;Client Log</STRONG>&nbsp;- Opens the current BES Client log file for the selected computer in a BareTail.&nbsp; The option is only available for Windows systems.&nbsp; Requires NT Authentication and access to $ share where the BES Client is installed. 
+<LI><STRONG>*Relay Diagnostics</STRONG> - Opens Internet Explorer to the Relay Diagnostics webpage for a BES Relay. 
+<LI><STRONG>*Start BESClient</STRONG> - Opens a command window and runs&nbsp;PSExec to start the BESClient on the selected computer(s). (Requires PsExec) 
+<LI><STRONG>*Stop BESClient</STRONG> - Opens a command window and runs PSExec to stop the BESClient on the selected computer(s).&nbsp; (Requires PsExec)</LI></UL>
+<H4>Windows Shell Extensions</H4>
+<P>&nbsp; The following right-click options will appear in the drop-down list when you right-click a file in Windows Explorer (they do not appear in the BES Console).&nbsp; The options are designed to assist custom authoring of Fixlets in the BES Console.</P>
+<UL>
+<LI><STRONG>Copy Sha1</STRONG> - Computes the Sha1 checksum and Size for the selected file and copies the results into your Windows ClipBoard (paste buffer) as a prefetch action command.&nbsp; Use this feature to quickly generate the download command when distributing custom packages through custom Fixlets.</LI></UL>
+<P><STRONG>Note: </STRONG>The installed right-click options will only be available for existing users on a computer.&nbsp; If a new user logs onto the computer, you will need to reinstall the right-click options before they will appear in the BES Console.</P>
+<P><STRONG>Note: </STRONG>Right-click options will be immediately available after installation, or uninstall,&nbsp;even if your BES Console is currently open.</P>
+<P><STRONG>*</STRONG>Indicates new or updated funcationaility</P></TD></TR></TBODY></TABLE>]]></Description>        
+        <Relevance>exists regapp "BESConsole.exe"</Relevance>
+        <Relevance>windows of operating system</Relevance>
+        <Category>BES Task</Category> 
+        <SourceReleaseDate>2015-03-31</SourceReleaseDate>
+                <MIMEField>
+                    <Name>x-fixlet-modification-time</Name>
+
+
+                    <Value>Tue, 31 Mar 2015 19:51:44 +0000</Value>
+                </MIMEField>
+
+        <MIMEField>
+            <Name>bigfixme-added-time</Name>
+            <Value>Tue, 31 Mar 2015 12:52:24 GMT</Value>
+        </MIMEField>
+        <MIMEField>
+            <Name>bigfixme-modification-time</Name>
+            <Value>Tue, 31 Mar 2015 12:52:24 GMT</Value>
+        </MIMEField>
+        <MIMEField>
+            <Name>bigfixme-keywords</Name>
+            <Value>right-click, baretail</Value>
+        </MIMEField>
+        <MIMEField>
+            <Name>bigfixme-ID</Name>
+            <Value>4012</Value>
+        </MIMEField>
+
+                <MIMEField>
+                    <Name>bigfixme-versions-ids</Name>
+                    <Value>4011</Value>
+                </MIMEField>
+
+        <Domain>BESC</Domain> 
+		<DefaultAction ID="Action1">
+            <Description>
+                <PreLink>Click </PreLink>
+                <Link>here</Link>
+                <PostLink> to install &lt;B&gt;All Right-Click Options&lt;/B&gt;.</PostLink>
+            </Description>
+            <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//Download all utilities; From BigFix Labs
+prefetch BESConsoleRightClickInstall.exe sha1:429c7e47b5c9b20c64aff9b569dd761edb911352 size:1011799 http://software.bigfix.com/download/bes/util/BESConsoleRightClickInstall.exe
+
+prefetch CopyFromComputerList.exe sha1:94cb41d251fb7c466ae51531a8db41503ff7b369 size:10240 http://software.bigfix.com/download/bes/util/CopyFromComputerList.exe
+
+prefetch iteratecmd.bat sha1:6c8f31a88fba6ad5b25b9383204bfb2cbc931a40 size:293 http://software.bigfix.com/download/bes/util/iteratecmd.bat
+
+prefetch RunQuiet.exe sha1:a655065675d32a19cb4ae5170b1992cbb7950f7b size:36864 http://software.bigfix.com/download/bes/util/RunQuiet.exe
+
+prefetch Sha1.exe sha1:34d3307925caed02f4cc61b5c0fee10ee6ff495a size:374272 http://software.bigfix.com/download/bes/util/Sha1-1.1.2.3.exe
+
+//From BigFix.me Fixlet ID#67
+//1. Download BareTail
+if {not exists file "baretail.exe" of folder "C:\ProgramData"}
+download http://bigfix.me:52311/Uploads/bf04ec2badf589a4061ec29c300b4dcc681b884a/baretail.exe.tmp
+continue if {(size of it = 114109 AND sha1 of it = "bf04ec2badf589a4061ec29c300b4dcc681b884a") of file "baretail.exe.tmp" of folder "__Download"}
+extract baretail.exe.tmp
+copy __Download\baretail.exe "C:\ProgramData\baretail.exe"
+endif
+
+//2. Create a Shortcut
+delete __appendfile
+appendfile set WshShell = WScript.CreateObject("WScript.Shell" ) 
+appendfile strAllUsersSM = WshShell.SpecialFolders("AllUsersStartMenu" ) 
+appendfile set oFSO = CreateObject("Scripting.FileSystemObject")
+appendfile oFSO.CreateFolder(strAllUsersSM & "\Programs\IBM Endpoint Manager")
+appendfile set oShellLink = WshShell.CreateShortcut(strAllUsersSM & "\Programs\IBM Endpoint Manager\baretail.lnk" ) 
+appendfile oShellLink.TargetPath = "C:\ProgramData\baretail.exe"
+appendfile oShellLink.WindowStyle = 1 
+appendfile oShellLink.IconLocation = "C:\ProgramData\baretail.exe"
+appendfile oShellLink.Description = "BareTail" 
+appendfile oShellLink.WorkingDirectory = "C:\ProgramData" 
+appendfile oShellLink.Save
+move __appendfile CreateShortcut.vbs
+waithidden cmd.exe /c cscript.exe CreateShortcut.vbs
+delete CreateShortcut.vbs
+
+//Install Right-Click options
+wait __download/BESConsoleRightClickInstall.exe -c -B -w -t -i -n -o -s
+
+//Update and add Right-Click options to menu; some options require PsExec
+Delete __appendfile
+Delete c:\ProgramData\OpenClientLog.reg
+
+appendfile REGEDIT4
+appendfile
+appendfile [HKEY_CURRENT_USER\Software\BigFix\Enterprise Console\Settings\ComputerListContextMenuExtensions\Open Client Log]
+appendfile "ComputerApplicabilityRelevance"="((value of property results whose ( name of property of it = \"OS\" ) of current computer) as string as lowercase contains \"win\")"
+appendfile "MaxComputerSetSize"=dword:00000005
+appendfile "MenuDisplayName"="&Open Client Log"
+appendfile "ShellCommandRelevance"="\"C:\\ProgramData\\baretail.exe %22\\\\\" & (value of property results whose (name of property of it = \"DNS Name\" ) of current computer) & \"\\C$\\Program Files (x86)\\BigFix Enterprise\\BES Client\\__BESData\\__Global\\Logs\\\" & year of current date as string & month of current date as two digits as string & day_of_month of current date as two digits as string  & \".log%22\""
+appendfile [HKEY_CURRENT_USER\Software\BigFix\Enterprise Console\Settings\ComputerListContextMenuExtensions\Open Client Log (x32)]
+appendfile "ComputerApplicabilityRelevance"="((value of property results whose ( name of property of it = \"OS\" ) of current computer) as string as lowercase contains \"win\")"
+appendfile "MaxComputerSetSize"=dword:00000005
+appendfile "MenuDisplayName"="&Open Client Log (x32)"
+appendfile "ShellCommandRelevance"="\"C:\\ProgramData\\baretail.exe %22\\\\\" & (value of property results whose (name of property of it = \"DNS Name\" ) of current computer) & \"\\C$\\Program Files\\BigFix Enterprise\\BES Client\\__BESData\\__Global\\Logs\\\" & year of current date as string & month of current date as two digits as string & day_of_month of current date as two digits as string  & \".log%22\""
+appendfile [HKEY_CURRENT_USER\Software\BigFix\Enterprise Console\Settings\ComputerListContextMenuExtensions\Relay Diagnostics]
+appendfile "ComputerApplicabilityRelevance"="relay server flag of current computer"
+appendfile "MaxComputerSetSize"=dword:0000000f
+appendfile "MenuDisplayName"="&Relay Diagnostics"
+appendfile "ShellCommandRelevance"="\"C:\\Program Files (x86)\\Internet Explorer\\iexplore.exe \" & \"http://\" & (value of property results whose (name of property of it = \"DNS Name\" ) of current computer) & \":52311/rd\""
+appendfile [HKEY_CURRENT_USER\Software\BigFix\Enterprise Console\Settings\ComputerListContextMenuExtensions\Stop BESClient]
+appendfile "ComputerApplicabilityRelevance"="((value of property results whose ( name of property of it = \"OS\" ) of current computer) as string as lowercase contains \"win\")"
+appendfile "MaxComputerSetSize"=dword:00000000
+appendfile "MenuDisplayName"="&Stop BESClient"
+appendfile "ShellCommandRelevance"="\"psexec -s \\\\\" & (value of property results whose (name of property of it = \"DNS Name\" ) of current computer) & \" net stop besclient\""
+appendfile [HKEY_CURRENT_USER\Software\BigFix\Enterprise Console\Settings\ComputerListContextMenuExtensions\Start BESClient]
+appendfile "ComputerApplicabilityRelevance"="((value of property results whose ( name of property of it = \"OS\" ) of current computer) as string as lowercase contains \"win\")"
+appendfile "MaxComputerSetSize"=dword:00000000
+appendfile "MenuDisplayName"="&Start BESClient"
+appendfile "ShellCommandRelevance"="\"psexec -s \\\\\" & (value of property results whose (name of property of it = \"DNS Name\" ) of current computer) & \" net start besclient\""
+
+copy __appendfile c:\ProgramData\OpenClientLog.reg
+
+override wait
+	hidden=true
+	runas=currentuser
+wait cmd.exe /C regedit.exe /S C:\ProgramData\OpenClientLog.reg
+Delete c:\ProgramData\OpenClientLog.reg]]></ActionScript>
+            <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+		</DefaultAction>
+		<Action ID="Action2">
+            <Description>
+                <PreLink>Click </PreLink>
+                <Link>here</Link>
+                <PostLink> to install only the &lt;B&gt;Windows Remote Management&lt;/B&gt; context menu extensions.</PostLink>
+            </Description>
+            <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch BESConsoleRightClickInstall.exe sha1:429c7e47b5c9b20c64aff9b569dd761edb911352 size:1011799 http://software.bigfix.com/download/bes/util/BESConsoleRightClickInstall.exe
+
+wait __download/BESConsoleRightClickInstall.exe -c -B -w</ActionScript>
+		</Action>
+		<Action ID="Action3">
+            <Description>
+                <PreLink>Click </PreLink>
+                <Link>here</Link>
+                <PostLink> to install only the &lt;B&gt;BES Console Tools&lt;/B&gt; context menu extensions.</PostLink>
+            </Description>
+            <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch BESConsoleRightClickInstall.exe sha1:429c7e47b5c9b20c64aff9b569dd761edb911352 size:1011799 http://software.bigfix.com/download/bes/util/BESConsoleRightClickInstall.exe
+
+prefetch CopyFromComputerList.exe sha1:94cb41d251fb7c466ae51531a8db41503ff7b369 size:10240 http://software.bigfix.com/download/bes/util/CopyFromComputerList.exe
+
+prefetch Sha1.exe sha1:34d3307925caed02f4cc61b5c0fee10ee6ff495a size:374272 http://software.bigfix.com/download/bes/util/Sha1-1.1.2.3.exe
+
+prefetch iteratecmd.bat sha1:6c8f31a88fba6ad5b25b9383204bfb2cbc931a40 size:293 http://software.bigfix.com/download/bes/util/iteratecmd.bat
+
+prefetch RunQuiet.exe sha1:a655065675d32a19cb4ae5170b1992cbb7950f7b size:36864 http://software.bigfix.com/download/bes/util/RunQuiet.exe
+
+wait __download/BESConsoleRightClickInstall.exe -t -i -n -o</ActionScript>
+		</Action>
+		<Action ID="Action4">
+            <Description>
+                <PreLink>Click </PreLink>
+                <Link>here</Link>
+                <PostLink> to install only the &lt;B&gt;Windows Shell Extensions&lt;/B&gt; for custom content authors.</PostLink>
+            </Description>
+            <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch BESConsoleRightClickInstall.exe sha1:429c7e47b5c9b20c64aff9b569dd761edb911352 size:1011799 http://software.bigfix.com/download/bes/util/BESConsoleRightClickInstall.exe
+
+prefetch RunQuiet.exe sha1:a655065675d32a19cb4ae5170b1992cbb7950f7b size:36864 http://software.bigfix.com/download/bes/util/RunQuiet.exe
+
+prefetch Sha1.exe sha1:34d3307925caed02f4cc61b5c0fee10ee6ff495a size:374272 http://software.bigfix.com/download/bes/util/Sha1-1.1.2.3.exe
+
+wait __download/BESConsoleRightClickInstall.exe -s</ActionScript>
+		</Action>
+		<Action ID="Action5">
+            <Description>
+                <PreLink>Click </PreLink>
+                <Link>here</Link>
+                <PostLink> to install &lt;STRONG&gt;Baretail&lt;/STRONG&gt; and create a&amp;nbsp;shortcut.</PostLink>
+            </Description>
+            <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//1. download utility
+download http://bigfix.me:52311/Uploads/bf04ec2badf589a4061ec29c300b4dcc681b884a/baretail.exe.tmp
+continue if {(size of it = 114109 AND sha1 of it = "bf04ec2badf589a4061ec29c300b4dcc681b884a") of file "baretail.exe.tmp" of folder "__Download"}
+extract baretail.exe.tmp
+copy __Download\baretail.exe "{pathname of parent folder of client}\baretail.exe"
+//2. create a shortcut
+delete __appendfile
+appendfile set WshShell = WScript.CreateObject("WScript.Shell" ) 
+appendfile strAllUsersSM = WshShell.SpecialFolders("AllUsersStartMenu" ) 
+appendfile set oFSO = CreateObject("Scripting.FileSystemObject")
+appendfile oFSO.CreateFolder(strAllUsersSM & "\Programs\IBM Endpoint Manager")
+appendfile set oShellLink = WshShell.CreateShortcut(strAllUsersSM & "\Programs\IBM Endpoint Manager\baretail.lnk" ) 
+appendfile oShellLink.TargetPath = "{pathname of parent folder of client}\baretail.exe"
+appendfile oShellLink.WindowStyle = 1 
+appendfile oShellLink.IconLocation = "{pathname of parent folder of client}\baretail.exe"
+appendfile oShellLink.Description = "BareTail" 
+appendfile oShellLink.WorkingDirectory = "{pathname of parent folder of client}\__BESData\__Global\Logs" 
+appendfile oShellLink.Save
+move __appendfile CreateShortcut.vbs
+waithidden cmd.exe /c cscript.exe CreateShortcut.vbs
+delete CreateShortcut.vbs]]></ActionScript>
+		</Action>
+		<Action ID="Action6">
+            <Description>
+                <PreLink>Click </PreLink>
+                <Link>here</Link>
+                <PostLink> to &lt;B&gt;Uninstall&lt;/B&gt; all right-click options.</PostLink>
+            </Description>
+            <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch BESConsoleRightClickInstall.exe sha1:429c7e47b5c9b20c64aff9b569dd761edb911352 size:1011799 http://software.bigfix.com/download/bes/util/BESConsoleRightClickInstall.exe
+
+wait __download/BESConsoleRightClickInstall.exe -u -a</ActionScript>
+		</Action>
+
+		<Action ID="Action7">
+
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to review this task in the bigfix.me Content Database.</PostLink>
+			</Description>
+			<ActionScript MIMEType="text/x-uri">https://bigfix.me/cdb/fixlet/4012</ActionScript>
+		</Action>
+
+
+	</Fixlet>
+</BES>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Fixlet>
+		<Title>Mac OS X- Upgrade ( Yosemite 10.10 to El Capitan 10.11)- Testing</Title>
+		<Description><![CDATA[<DIV class=FixletMessage>
+<TABLE>
+<TBODY>
+<TR>
+<TD>
+<P>This Update is recommended for all users running Mac OS X Yosemite. It includes general operating system upgrade to El Capitan including&nbsp;fixes that enhance the stability, compatibility, and security of your Mac.</P>
+<P><EM>This update is available via the IBM Bigfix server, which is the&nbsp;customized action, and Apple Software Update on the endpoint. </EM><EM>This Custom action does not require internet connection on the endpoints. This action downloads the installer to the IBM Bigfix server and then installs the update to the endpoints.</EM></P>
+<P><FONT color=#ff0000><STRONG>Note: </STRONG>If you want to use Apple Software Update, ensure that the endpoints have continuous internet connection to install the update successfully.</FONT></P>
+<P><FONT color=#ff0000><STRONG>Note: </STRONG>Affected computers may report back as 'Pending Restart' once the patch has run successfully, but will not report back their final status until the computer has been restarted.</FONT></P></TD></TR></TBODY></TABLE></DIV>]]></Description>
+		<Relevance>(name of operating system = "Mac OS X") AND (if exists property "in proxy agent context" then (not in proxy agent context) else true) AND (if exists property "android" of type "operating system" then (not android of operating system) else true)</Relevance>
+		<Relevance><![CDATA[(exists string "ProductVersion" whose (it as string = "10.10" OR (it as version >= "10.10.1" AND it as version <= "10.10.5")) of dictionary of it) of file "/System/Library/CoreServices/SystemVersion.plist"]]></Relevance>
+		<Category>OS Upgrade</Category>
+		<DownloadSize>16106127360</DownloadSize>
+		<Source>Internal</Source>
+		<SourceID>Prt-003</SourceID>
+		<SourceReleaseDate>2016-10-25</SourceReleaseDate>
+		<SourceSeverity>Medium</SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Wed, 09 Nov 2016 08:19:16 +0000</Value>
+		</MIMEField>
+		<Domain>PTCH</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//Under Development
+
+continue if {(version of operating system < "10.11" as version) OR (version of client >= "9.2.6.94" as version)}
+
+prefetch OSXUpdCombo10.11.6.dmg sha1:dd53cc42ecb6ea63903c7310a798dfde00e16cdc size:1544355789 http://supportdownload.apple.com/download.info.apple.com/Apple_Support_Area/Apple_Software_Updates/Mac_OS_X/downloads/031-63177-20160718-07a49454-4aac-11e6-b616-d6fbcf9f5a9b/osxupdcombo10.11.6.dmg sha256:c68012db3745955aff1f48cbab495318a189e7ba3b430454c0e0475b1d7c874a
+
+wait cp "{posix path of file "OSXUpdCombo10.11.6.dmg" of folder "__Download" of client folder of current site}" "/private/tmp/"
+
+wait hdiutil attach -quiet -noautoopen -nobrowse -private -mountpoint "/Volumes/OSXUpdCombo10.11.6" "/private/tmp/OSXUpdCombo10.11.6.dmg"
+
+wait rm -rf "/private/tmp/OSXUpdCombo10.11.6.dmg"
+
+wait cp -r "/Volumes/OSXUpdCombo10.11.6/OSXUpdCombo10.11.6.pkg" "/private/tmp/OSXUpdCombo10.11.6.pkg"
+
+wait /bin/bash -c "devname=`df | grep OSXUpdCombo10.11.6 | awk '{{print $1}'`; hdiutil detach -force $devname;"
+
+wait installer -pkg "/private/tmp/OSXUpdCombo10.11.6.pkg" -target /
+
+action requires restart]]></ActionScript>
+		</DefaultAction>
+	</Fixlet>
+</BES>

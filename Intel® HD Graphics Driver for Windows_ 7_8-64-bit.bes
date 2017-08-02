@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Task>
+		<Title>Intel® HD Graphics Driver for Windows* 7/8-64-bit</Title>
+		<Description><![CDATA[<P><STRONG>Detailed Description<BR></STRONG>Not sure if this is the right driver or software for your component? Run <A href="http://www.intel.com/content/www/us/en/support/detect.html?iid=dc_iduu">Intel® Driver Update Utility </A>to automatically detect driver or software updates.<BR>This driver package contains the Intel® HD Graphics Driver version 15.28.24.64.4229 (9.17.10.4229) for Windows* 7 and Windows 8. <BR>These drivers will not function with any other product. View the README file for installation information and the RELEASE NOTES for driver version details.</P>
+<P>See the release notes for installation instructions, supported hardware, what is new, bug fixes, and known issues.</P>
+<P>*****************************************************************************************************************************************</P>
+<P>Name of Software: Intel® HD Graphics Driver for Windows* 7/8-64-bit<BR>SubsystemVersion:&nbsp;4.0<BR>InitializedDataSize:98304<BR>ProductName:&nbsp;&nbsp;Intel(R) Graphics Driver Software<BR>FileVersionNumber:&nbsp;2.11.15.0<BR>LanguageCode:&nbsp;&nbsp;English (U.S.)<BR>LinkerVersion:&nbsp;&nbsp;6.0<BR>FileType:&nbsp;&nbsp;&nbsp;Extensionexe<BR>OriginalFileName:&nbsp;stub32i.exe<BR>Subsystem:&nbsp;&nbsp;&nbsp;Windows GUI<BR>FileVersion:&nbsp;&nbsp;15.28<BR>FileType:&nbsp;&nbsp;&nbsp;Win32 EXE<BR>InternalName:&nbsp;&nbsp;stub32i.exe<BR>ProductVersion:&nbsp;&nbsp;15.28<BR>FileDescription:&nbsp;Intel(R) Graphics Installer<BR>OSVersion:&nbsp;&nbsp;&nbsp;4.0<BR>FileOSWindows:&nbsp;&nbsp;32-bit<BR>LegalCopyright:&nbsp;&nbsp;Copyright (c) Intel Corporation, 1998-2011<BR>MachineType:&nbsp;&nbsp;Intel 386 or later, and compatibles<BR>CompanyName:&nbsp;&nbsp;Intel Corporation<BR>ProductVer_Number:&nbsp;2.11.15.0<BR>Signature verification:&nbsp; Signed file, verified signature<BR>Signing date:&nbsp; 6:24 AM 6/5/2015<BR>Link:&nbsp; <A href="https://downloadcenter.intel.com/download/24971/Intel-HD-Graphics-Driver-for-Windows-7-8-64-bit">https://downloadcenter.intel.com/download/24971/Intel-HD-Graphics-Driver-for-Windows-7-8-64-bit</A><BR>size: 125.67 MB /&nbsp; 131611952 byte<BR>***********************************************************************************************************************************************************************</P>
+<P><STRONG><FONT color=#ff0000>About Intel® drivers:<BR></FONT></STRONG>The driver or software for your Intel® component might have been changed or replaced by the computer manufacturer. <BR>We recommend you work with your computer manufacturer before installing our driver so you don’t lose features or customizations.</P>]]></Description>
+		<GroupRelevance JoinByIntersection="false">
+			<SearchComponentPropertyReference PropertyName="Computer Name" Comparison="Contains">
+				<SearchText>IT-PRABHATK</SearchText>
+				<Relevance>exists (computer name) whose (it as string as lowercase contains "IT-PRABHATK" as lowercase)</Relevance>
+			</SearchComponentPropertyReference>
+		</GroupRelevance>
+		<Category></Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-11-08</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Fri, 11 Nov 2016 07:53:49 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Display Driver Update
+prefetch win64_152824.exe sha1:788ed2d229fe51b7e8553fcca775849e0c95c8d4 size:131775792 http://downloadmirror.intel.com/24971/a08/win64_152824.exe sha256:8b8d53cffef85118daf38a0c82a357b255bab792de3db85a76557c06b7af9398
+waithidden "__Download\win64_152824.exe" /S /qn /norestart
+
+
+</ActionScript>
+			<SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+		</DefaultAction>
+	</Task>
+</BES>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Task>
+		<Title>Install CC Cleaner- Mac OS X (Apple Scripting)</Title>
+		<Description>Testing </Description>
+		<GroupRelevance JoinByIntersection="false">
+			<SearchComponentPropertyReference PropertyName="OS" Comparison="Contains">
+				<SearchText>Mac</SearchText>
+				<Relevance>exists (operating system) whose (it as string as lowercase contains "Mac" as lowercase)</Relevance>
+			</SearchComponentPropertyReference>
+		</GroupRelevance>
+		<Category></Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-11-04</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Wed, 09 Nov 2016 09:29:09 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-AppleScript">// Enter your action script here
+curl -o /tmp/CCMacSetup112.dmg "http://HEMERA.mynt.myntra.com:52311/Uploads/ff4f57b56a9ec5079aeeb4c237a8bc6585d8d6c2/CCMacSetup112.dmg"
+sudo installer -allowUntrusted -pkg /tmp/CCMacSetup112.dmg -target /
+</ActionScript>
+			<SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+		</DefaultAction>
+	</Task>
+</BES>

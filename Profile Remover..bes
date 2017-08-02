@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Task>
+		<Title>Profile Remover.</Title>
+		<Description><![CDATA[This task will deploy: Profile Remover.<BR><BR>This task is applicable on: Windows 7 and Windows 7 x64. ]]></Description>
+		<Relevance>((name of it = "Win7" AND NOT x64 of it) OR (name of it = "Win7" AND x64 of it)) of operating system AND TRUE</Relevance>
+		<Relevance>not exists service "BESRelay"</Relevance>
+		<Category>Software Distribution</Category>
+		<DownloadSize>235164</DownloadSize>
+		<Source>Software Distribution Wizard</Source>
+		<SourceID></SourceID>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<MIMEField>
+			<Name>x-fixlet-source</Name>
+			<Value>Software Distribution Wizard</Value>
+		</MIMEField>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Sat, 17 Dec 2016 04:13:27 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here </Link>
+				<PostLink>to initiate the deployment process.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch 0775e7693b8f95628b062df19ade49f9fc5c0cea sha1:0775e7693b8f95628b062df19ade49f9fc5c0cea size:235164 http://HEMERA.mynt.myntra.com:52311/Uploads/0775e7693b8f95628b062df19ade49f9fc5c0cea/DelProf2.exe.tmp sha256:c96a8f2d236bc1a329c79d1d973f165fb48dd3bd2610983e68d564837e15f483
+extract 0775e7693b8f95628b062df19ade49f9fc5c0cea
+wait __Download\DelProf2.exe /q /i /d:10
+</ActionScript>
+			<SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+		</DefaultAction>
+	</Task>
+</BES>

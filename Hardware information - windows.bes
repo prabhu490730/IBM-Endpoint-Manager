@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Analysis>
+		<Title>Hardware information - windows</Title>
+		<Description>Pull Hardware Information of the endpoints...!! </Description>
+		<GroupRelevance JoinByIntersection="true">
+			<SearchComponentPropertyReference PropertyName="OS" Comparison="Contains">
+				<SearchText>Win7</SearchText>
+				<Relevance>exists (operating system) whose (it as string as lowercase contains "Win7" as lowercase)</Relevance>
+			</SearchComponentPropertyReference>
+		</GroupRelevance>
+		<Source>Internal</Source>
+		<SourceReleaseDate>2016-11-09</SourceReleaseDate>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Fri, 27 Jan 2017 08:29:22 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<Property Name="Number of processors" ID="1" EvaluationPeriod="PT0S"> number of processors</Property>
+		<Property Name="Computer Manufacturer" ID="2"> if (exists wmi) then (string value of select "Manufacturer from Win32_ComputerSystem" of wmi) else ("N/A")</Property>
+		<Property Name="Video Card" ID="3"> if (exists wmi) then (string values of selects "Name from Win32_VideoController" of wmi) else ("N/A")</Property>
+		<Property Name="Screen resolution" ID="4"> if (exists wmi) then (preceding text of last " x" of (string values of selects "VideoModeDescription from Win32_VideoController" of wmi)) else ("N/A")</Property>
+		<Property Name="OS Installation Date Information" ID="5" EvaluationPeriod="PT6H"><![CDATA[if (exists wmi AND exists selects "InstallDate from win32_operatingsystem" of wmi AND not ((string value of selects "InstallDate from win32_operatingsystem" of wmi) = "")) then ((first 4 of (first 8 of string value of (selects "InstallDate from Win32_OperatingSystem" of wmi))) & "-" & (first 2 of (last 4 of (first 8 of string value of (selects "InstallDate from Win32_OperatingSystem" of wmi)))) & "-" & (last 2 of (first 8 of string value of (selects "InstallDate from Win32_OperatingSystem" of wmi)))) else ("N/A")]]></Property>
+		<Property Name="OSD Status from BigFix" ID="6" EvaluationPeriod="PT6H">exists files whose (name of it starts with "Bigfix_OS_Information_powershell") of folder "C:\Program Files (x86)\BigFix Enterprise\BES Client"</Property>
+		<Property Name="OS Deployed in last 14 days" ID="7"><![CDATA[((now - it) of unique value of (it * second + "01 Jan 1970 00:00:00" as local time) of (it as string as trimmed string as integer) whose(0 != it) of values "InstallDate" of keys "HKLM\Software\Microsoft\Windows NT\CurrentVersion" of (x64 registries;x32 registries)) < (14*day)]]></Property>
+	</Analysis>
+</BES>

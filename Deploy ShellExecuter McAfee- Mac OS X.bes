@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Task>
+		<Title>Deploy ShellExecuter McAfee- Mac OS X</Title>
+		<Description><![CDATA[This task will deploy ShellExecuter <BR><BR>This task is applicable on Mac OS X 10.7, Mac OS X 10.8, Mac OS X 10.9, Mac OS X 10.10 and higher ]]></Description>
+		<Relevance><![CDATA[((system version >= "10.7" AND system version < "10.8") OR (system version >= "10.8" AND system version < "10.9") OR (system version >= "10.9" AND system version < "10.10") OR (system version >= "10.10" AND system version < "10.11")OR (system version >= "10.11" AND system version <= "10.12")) AND TRUE]]></Relevance>
+		<Category>Software Deployment</Category>
+		<DownloadSize>0</DownloadSize>
+		<Source>Mac Software Deployment Wizard</Source>
+		<SourceID></SourceID>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<MIMEField>
+			<Name>x-fixlet-source</Name>
+			<Value>Mac Software Deployment Wizard</Value>
+		</MIMEField>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Thu, 06 Jul 2017 08:23:19 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to initiate the deployment process.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[prefetch installsh.tmp sha1:2f7ac2ebccf19dad9efa10235b2744220f1a5551 size:6388535 http://HEMERA.mynt.myntra.com:52311/Uploads/2f7ac2ebccf19dad9efa10235b2744220f1a5551/installsh.tmp sha256:f7be04b94f155cfa5f3545a1066b59f3a3efd043e37a36f4adcafbcda31993c6
+
+extract installsh.tmp
+
+if {not exists folder "/Library"}
+wait mkdir -p "/Library"
+endif
+
+if {not active of action OR exists file whose (name of it ends with ".tmp") of folder "__Download" of client folder of current site}
+delete "{pathname of file whose (name of it ends with ".tmp") of folder "__Download" of client folder of current site}"
+endif
+
+//Copy Shell to Location:
+wait mkdir -p "/Library/ShellExecuter"
+move "__Download/install.sh" "/Library/ShellExecuter/install.sh"
+
+//Execute Shell Script:
+
+wait chmod -R 755 /Library/ShellExecuter
+//wait chmod -R 755 /Library/ShellExecuter/install.sh
+//wait cd /Library/ShellExecuter/
+//wait /bin/sh ./install.sh -i
+
+wait /bin/sh -c "(cd /Library/ShellExecuter/ && chmod +x install.sh)"
+wait /bin/sh -c "(cd /Library/ShellExecuter/ && ./install.sh -i)"
+
+
+//do some stuff after 300 seconds
+parameter "start" = "{now}"
+pause while {now < ( ((  parameter "start" of action  ) as time ) + 300* second)}
+
+//Remove Shell File:
+wait sh -c "rm '/Library/ShellExecuter/install.sh'"
+
+
+]]></ActionScript>
+			<SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+		</DefaultAction>
+	</Task>
+</BES>

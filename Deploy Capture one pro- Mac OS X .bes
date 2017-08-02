@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Task>
+		<Title>Deploy Capture one pro- Mac OS X </Title>
+		<Description><![CDATA[This task will deploy Capture one pro <BR><BR>This task is applicable on Mac OS X 10.7, Mac OS X 10.8, Mac OS X 10.9, Mac OS X 10.10 and Above ]]></Description>
+		<Relevance><![CDATA[((system version >= "10.7" AND system version < "10.8") OR (system version >= "10.8" AND system version < "10.9") OR (system version >= "10.9" AND system version < "10.10") OR (system version >= "10.10" AND system version < "10.11")OR (system version >= "10.11" AND system version <= "10.12")) AND TRUE]]></Relevance>
+		<Category>Software Deployment</Category>
+		<DownloadSize>320864256</DownloadSize>
+		<Source>Mac Software Deployment Wizard</Source>
+		<SourceID></SourceID>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<MIMEField>
+			<Name>x-fixlet-source</Name>
+			<Value>Mac Software Deployment Wizard</Value>
+		</MIMEField>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Tue, 17 Jan 2017 13:04:27 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to initiate the deployment process.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[prefetch CaptureOneMac833-06efdmg.tmp sha1:4494220b270cc19e69b4b014faa5615bfcdff4fe size:319828238 http://HEMERA.mynt.myntra.com:52311/Uploads/4494220b270cc19e69b4b014faa5615bfcdff4fe/CaptureOneMac833-06efdmg.tmp sha256:21614d3c55b9e48b7df0305c2087878413dbcb7501fe6c23468898f0d33d7868
+
+extract CaptureOneMac833-06efdmg.tmp
+
+wait sh -c "rm '/tmp/CaptureOne.Mac.8.3.3-06ef.dmg'"
+
+move "{posix path of file "CaptureOne.Mac.8.3.3-06ef.dmg" of folder "__Download" of client folder of current site}" "/tmp/CaptureOne.Mac.8.3.3-06ef.dmg"
+
+wait hdiutil attach -quiet -private -mountpoint "/tmp/BESMNTPT8241682084419465" "/tmp/CaptureOne.Mac.8.3.3-06ef.dmg"
+
+if {not active of action OR (exists file whose (name of it ends with ".mpkg" OR  name of it ends with ".pkg") of it) of folder ("/tmp/" & "BESMNTPT8241682084419465")}
+
+wait installer -pkg "{(if (exists file whose (name of it ends with ".mpkg") of it) then (pathname of file whose (name of it ends with ".mpkg") of it) else (pathname of file whose (name of it ends with ".pkg") of it)) of folder ("/tmp/" & "BESMNTPT8241682084419465") }" -target /
+
+elseif {(exists folder whose (name of it ends with ".mpkg" OR  name of it ends with ".pkg") of it) of folder ("/tmp/" & "BESMNTPT8241682084419465")}
+
+wait installer -pkg "{(if (exists folder whose (name of it ends with ".mpkg") of it) then (pathname of folder whose (name of it ends with ".mpkg") of it) else (pathname of folder whose (name of it ends with ".pkg") of it)) of folder ("/tmp/" & "BESMNTPT8241682084419465") }" -target /
+
+elseif {exists folder whose (name of it ends with ".app" AND exists folder "Contents" whose (exist file "PkgInfo" whose (exists line whose (it = "APPLVISX") of it) of it) of it) of folder ("/tmp/" & "BESMNTPT8241682084419465")}
+
+appendfile tell application "{name of folder whose (name of it ends with ".app") of folder ("/tmp/" & "BESMNTPT8241682084419465")}"
+appendfile DoInstall
+appendfile quit
+appendfile end tell
+
+wait /bin/sh -c "iconv -f UTF-8 -t macintosh {concatenation "\ " of substrings separated by " " of pathname of client folder of current site}/__appendfile > {concatenation "\ " of substrings separated by " " of pathname of client folder of current site}/doinstall.txt"
+
+run "{posix path of framework folder & "/Carbon.framework/Versions/Current/Support/LaunchCFMApp"}" "{(pathname of parent folder of it & "/" & name of it & "/Contents/MacOSClassic/" & preceding text of first ".app" of name of it) of folder whose (name of it ends with ".app") of folder ("/tmp/" & "BESMNTPT8241682084419465")}"
+
+wait /bin/sh -c "osascript {concatenation "\ " of substrings separated by " " of pathname of client folder of current site}/doinstall.txt"
+
+elseif {exists folder whose (name of it ends with ".app") of folder ("/tmp/" & "BESMNTPT8241682084419465")}
+
+wait sh -c "rm '/Applications/{name whose (it ends with ".app") of folders of folder ("/tmp/" & "BESMNTPT8241682084419465")}'"
+wait cp -Rfp "{pathname of folder whose (name of it ends with ".app") of folder ("/tmp/" & "BESMNTPT8241682084419465")}" "/Applications"
+
+else
+
+wait cp -Rpn /tmp/BESMNTPT8241682084419465/* /Applications
+
+endif
+
+wait /bin/sh -c "hdiutil detach -force `mount | grep /tmp/BESMNTPT8241682084419465 | cut -f 1 -d \ | cut -f 3 -d / | head -1`"
+wait sh -c "rm '/tmp/CaptureOne.Mac.8.3.3-06ef.dmg'"
+]]></ActionScript>
+			<SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+		</DefaultAction>
+	</Task>
+</BES>

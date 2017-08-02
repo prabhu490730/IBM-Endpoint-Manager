@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Task>
+		<Title>Uninstall TrendMicro Scan- Windows</Title>
+		<Description><![CDATA[This task will be able to uninstall TrendMicro from the Windows OS&nbsp; ]]></Description>
+		<Relevance>exists folder whose (name of it = "Trend Micro") of folder "C:\Program Files (x86)"</Relevance>
+		<Category>Uninstallation</Category>
+		<DownloadSize>0</DownloadSize>
+		<Source>Internal Use</Source>
+		<SourceID>Prt-1</SourceID>
+		<SourceReleaseDate>2016-10-19</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Wed, 09 Nov 2016 11:28:13 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Uninstall TrendMicro- windows OS
+waithidden "C:\Program Files (x86)\Trend Micro\OfficeScan Client\TmUninst.exe" /VERYSILENT /NORESTART
+delete folder "C:\Program Files (x86)\Trend Micro"
+
+</ActionScript>
+		</DefaultAction>
+	</Task>
+</BES>

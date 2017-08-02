@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Task>
+		<Title>Capture User State on Windows XP, Vista, and 7 computers (USMT5)</Title>
+		<Description><![CDATA[<P>This Task runs an USMT capture on the selected Windows XP, Vista, and 7 computers, leveraging USMT v5 from WADK 8.0. At least one MDT Bundle with USMT v5 from WADK 8.0 must have been imported in the Bundle and Media Manager Dashboard</P> 		<P>Specify the remote folder on the network share where data will be copied. A subfolder for each target computer identified by the computer name will be created. Optionally, change the options to supply to the ScanState command.</P> <DIV id=paramFixletDescription><P><B>Complete the following form and click Take Action:</B></P></DIV> <DIV id=plainOrdinaryFixletDescription><B>Click Take Action and enter the required parameter values when prompted.</B> </DIV> <DIV id=fixletMessage2 class=FixletMessage> <script> loaded = false;  function loadScript(url, callback) {  	 var head = document.getElementsByTagName("head")[0]; 	 var script = document.createElement('script'); 	 script.type = 'text/javascript'; 	 script.src = url; 	 script.onreadystatechange = callback; 	 script.onload = callback; 	 head.appendChild(script); } function scriptLoaded() { 	 if(!loaded) { 		if (typeof FixletUtils !== 'undefined') { 			loaded = true; 			paramFixletDescription.style.display="block"; 			plainOrdinaryFixletDescription.style.display="none"; 			FixletUtils.initFixletRender(); 		} else { 			paramFixletDescription.style.display="none"; 			plainOrdinaryFixletDescription.style.display="block";  		} 	}  } loadScript( "vrt_FixletUtils.js", scriptLoaded ); </script></DIV>  <DIV class=FixletProperty></DIV>]]></Description>
+		<Relevance><![CDATA[((if (exists property "in proxy agent context") then (if (in proxy agent context) then (device type = "Bare Metal Target") else false) else false) OR ((exists main gather service OR exists relay service OR (if (name of operating system as lowercase starts with "win") then (platform id of operating system != 3) else (name of operating system as lowercase contains "linux"))) and (if (exists property "in proxy agent context") then (if (in proxy agent context) then (device type = "Bare Metal Target") else true) else true))) AND (version of client >= "8.2")]]></Relevance>
+		<Relevance><![CDATA[windows of operating system AND version of client >= "8.2"]]></Relevance>
+		<Relevance>((name of it = "WinXP" AND service pack major version of it = 3) OR name of it = "WinXP-2003" OR (name of it = "WinVista" AND product type of it = nt workstation product type) OR name of it = "Win7") of operating system</Relevance>
+		<Relevance>NOT (exists running application "BESRootServer.exe" AND exists key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server" whose (exists value "BESInstalled" of it AND value "BESInstalled" of it = 1) of x32 registry) AND NOT exists regapp "besrelay.exe"</Relevance>
+		<Category>Configuration</Category>
+		<Source>IBM</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2015-12-07</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<MIMEField>
+			<Name>parametermetadatatag</Name>
+			<Value>{    "MDTBundle": {     "Name": "MDTBundle",     "Title": "Name of the MDT Bundle to use:",     "Description": "The MDT Bundle used during User State capture. Here you can find only MDT Bundles containing USMT version 5 from WADK 8.0.",     "UIType": "Select",     "Visible": "false",     "ValueType": "relevance",     "Values": "unique values of preceding texts of firsts \"%22\" of following texts of firsts \"resourceName%22:%22\" of values of shared variables whose (name of it starts with \"OSD_Resource_MDT_\" AND preceding text of first \"%22\" of following text of first \"usmtVersions%22:%22\" of value of it is \"USMT5x86,USMT5x64\" AND preceding text of first \"%22\" of following text of first \"WAIKVersion%22:%22\" of value of it is \"8.0\") of bes wizards whose (dashboard id of it = \"OSD_DataStore.ojo\")",     "Required":"1"    },    "USMTAvailable": {     "Name": "USMTAvailable",     "Title": "USMT v5 from WADK 8.0 available:",     "Description": "You need an MDT Bundle with USMT v5 from WADK 8.0 to capture User State on Windows XP, Vista, and 7 computers.",     "UIType": "Select",     "Parent" : "MDTBundle",     "ValueType": "specified",     "Disabled":"true",     "CustomValidator" : "validateUSMTAvailable",     "Values": [     {"key":"No", "value":"No", "parentValue":"NoRelevanceResult"},     {"key":"Yes", "value":"Yes"}     ],     "Required":"1"    },    "Arguments": {     "Name": "Arguments",     "Title": "Arguments of ScanState command:",     "Description": "Arguments to pass to ScanState command to run User State capture.",     "UIType": "textbox",     "Default" : "/v:6 /c /localonly /o /uel:60",     "Required":"1"    },    "AddExtensions": {     "Name": "AddExtensions",     "Title": "Additional file extensions to capture:",     "Description": "Comma-separated list of additional file extensions to capture.",     "CustomValidator" : "validateAddExtensions",     "UIType": "textbox",     "Required":"0"    },    "AddFile": {     "Name": "AddFile",     "Title": "Additional .xml file content to pass to ScanState command:",     "Description": "Additional .xml file content that contains rules to pass to ScanState command. Maximum 4000 characters.",     "CustomValidator" : "validateAddFileLength",     "UIType": "textarea",     "Required":"0"    },    "MDTBundleUrl": {        "Name": "MDTBundleUrl",        "Title": "Selected MDT Bundle url:",        "Description": "Enter the selected MDTBundle url.",        "UIType": "textbox",        "Visible" : "false",        "CustomEvents": [{"event":"onFormSubmit","action":"submitMDTBundleUrl"}]    },    "MDTBundleSize": {        "Name": "MDTBundleSize",        "Title": "Selected MDT Bundle size:",        "Description": "Enter the selected MDTBundle size.",        "UIType": "textbox",        "Visible" : "false",        "CustomEvents": [{"event":"onFormSubmit","action":"submitMDTBundleSize"}]    },    "MDTBundleSHA1": {        "Name": "MDTBundleSHA1",        "Title": "Selected MDT Bundle SHA1:",        "Description": "Enter the selected MDTBundle SHA1.",        "UIType": "textbox",        "Visible" : "false",        "CustomEvents": [{"event":"onFormSubmit","action":"submitMDTBundleSHA1"}]    },    "MDTBundleSHA256": {        "Name": "MDTBundleSHA256",        "Title": "Selected MDT Bundle SHA256:",        "Description": "Enter the selected MDTBundle SHA256.",        "UIType": "textbox",        "Visible" : "false",        "CustomEvents": [{"event":"onFormSubmit","action":"submitMDTBundleSHA256"}]    },    "NetworkShare": {     "Name": "NetworkShare",     "Title": "Destination folder on network share:",     "Description": "Specify the network share where captured data will be copied to.",     "CustomValidator" : "validateShare",     "UIType": "textbox",     "Required":"1"    },    "NetworkShareComputer": {     "Name": "NetworkShareComputer",     "Title": "Hostname or IP of computer of network share:",     "Description": "Specify the hostname or IP of computer of network share.",        "UIType": "textbox",        "Visible" : "false",        "CustomEvents": [{"event":"onFormSubmit","action":"extractNetworkShareComputer"}]    },    "SambaUser": {     "Name": "SambaUser",     "Title": "User for network share:",     "Description": "Specify the user to access the network share if needed.",     "UIType": "textbox",     "Required":"0"    },    "dSambaPassword": {     "Name": "dSambaPassword",     "Title": "Password for network share:",     "Description": "Specify the password to access the network share if needed:",     "UIType": "textbox",     "SubUIType": "password",     "Encrypt": "true",     "Required":"0"    },    "qSambaPassword": {     "Name": "qSambaPassword",     "Title": "Password for network share:",     "Description": "Specify the password to access the network share if needed.",     "UIType": "textbox",     "Default": "undefined",     "Visible": "false",     "Required":"0"    }    }</Value>
+		</MIMEField>
+		<MIMEField>
+			<Name>parameterfixletinfotag</Name>
+			<Value>{    "FixletInfo": {      "fixletInfoId": "Fixlet_170",      "messageFileName": "OSDMimeMessages.js"    }    }</Value>
+		</MIMEField>
+		<MIMEField>
+			<Name>parametercustomeventstag</Name>
+			<Value><![CDATA[{     onFixletRender : function (metaObj) {      this.getMDTBundleInfoFromDatastore = function getMDTBundleInfoFromDatastore(MDTBundleName, Field) {       var result = "";       if (MDTBundleName != "NoRelevanceResult") {        var relevanceConsoleUploadID = 'unique value of preceding texts of firsts \"%22\" of following texts of firsts \"consoleUploadID%22:%22\" of values of shared variables whose (unique value of preceding texts of first \"%22\" of following texts of first \"resourceName%22:%22\" of values of it is \"' + MDTBundleName + '\") of bes wizards whose (dashboard id of it = \"OSD_DataStore.ojo\")';        /*alert("relevanceConsoleUploadID is " + relevanceConsoleUploadID);*/        var consoleUploadID = EvaluateRelevance(relevanceConsoleUploadID);        var relevanceResult = 'unique value of preceding texts of firsts \",\" of following texts of firsts \"' + Field + '%22:\" of values of shared variables whose (name of it is \"' + consoleUploadID + '\") of bes wizards whose (dashboard id of it = \"OSD_DataStore.ojo\")';        /*alert("relevanceResult is " + relevanceResult);*/        result = EvaluateRelevance(relevanceResult);        if (result.charAt(0)=="\"" && result.charAt(result.length-1)=="\"")         result = result.substring(1, result.length-1);        /*alert("Field " + Field + " is " + result);*/       }       return result;      };     },     submitMDTBundleUrl : function (elemValue , metadataObjects) {      return metadataObjects.getMDTBundleInfoFromDatastore(FixletUtils.getElementValue("MDTBundle" , metadataObjects), "url");     },     submitMDTBundleSize : function (elemValue , metadataObjects) {      return metadataObjects.getMDTBundleInfoFromDatastore(FixletUtils.getElementValue("MDTBundle" , metadataObjects), "size");     },     submitMDTBundleSHA1 : function (elemValue , metadataObjects) {      return metadataObjects.getMDTBundleInfoFromDatastore(FixletUtils.getElementValue("MDTBundle" , metadataObjects), "sha1");     },     submitMDTBundleSHA256 : function (elemValue , metadataObjects) {      return metadataObjects.getMDTBundleInfoFromDatastore(FixletUtils.getElementValue("MDTBundle" , metadataObjects), "sha256");     },     extractNetworkShareComputer : function (elemValue , metadataObjects) {      var networkShare = FixletUtils.getElementValue("NetworkShare" , metadataObjects);      return networkShare.substring(2, networkShare.indexOf("\\", 2));     }    }]]></Value>
+		</MIMEField>
+		<MIMEField>
+			<Name>parametermessagestag</Name>
+			<Value>{    "FixletGlobalMessages":      {     "ERR170_WRONG_ADDEXTENSIONS_FORMAT":"Specify a list of file extensions separated by commas (e.g. '.mp3, .jpg').",     "ERR170_NETWORK_SHARE_FORMAT":"The destination folder *must* point to a network share (i.e. \\mycomputer\mynetworkshare$).",     "ERR170_NO_USMT_AVAILABLE":"The requested version of USMT is not available. Please, import an MDT Bundle that includes this resource.",     "ERR170_TOO_LONG_ADD_FILE":"Additional .xml file content provided is too long. Please, do not use more that 4000 characters."    }    }</Value>
+		</MIMEField>
+		<MIMEField>
+			<Name>parametervalidatortag</Name>
+			<Value><![CDATA[{     validateUSMTAvailable : function (validationObj , metaDataobjects ){      var usmtavailable = getParamTableValue(metaDataobjects , "USMTAvailable");       if (usmtavailable == "No") {        return "ERR170_NO_USMT_AVAILABLE";       }     },     validateAddExtensions : function (validationObj , metaDataobjects ){      var addExtensions = getParamTableValue(metaDataobjects , "AddExtensions");       if (addExtensions.match(/^(\s*\.[a-zA-Z0-9\*]+\s*)([,;](\s*\.[a-zA-Z0-9\*]+\s*))*$/)==undefined && addExtensions!="") {        return "ERR170_WRONG_ADDEXTENSIONS_FORMAT";       }     },     validateAddFileLength : function (validationObj , metaDataobjects ){      var addFile = getParamTableValue(metaDataobjects , "AddFile");       if (addFile.length > 4000) {        return "ERR170_TOO_LONG_ADD_FILE";       }     },     validateShare : function (validationObj , metaDataobjects ){      var networkShare = getParamTableValue(metaDataobjects , "NetworkShare");       if (networkShare.match(/^\\\\.+\\.+[^\\]$|^\/\/.+\/.+[^/]$/)==undefined) {        return "ERR170_NETWORK_SHARE_FORMAT";       }     }    }]]></Value>
+		</MIMEField>
+		<MIMEField>
+			<Name>x-fixlet-first-propagation</Name>
+			<Value>Mon, 07 Mar 2016 19:00:00 +0000</Value>
+		</MIMEField>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Mon, 07 Mar 2016 19:00:00 +0000</Value>
+		</MIMEField>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
+begin prefetch block
+action parameter query "MDTBundle" with description "Name of the MDT Bundle to use:" with default ""
+action parameter query "USMTAvailable" with description "USMT v5 from WADK 8.0 available:" with default "Yes"
+action parameter query "Arguments" with description "Arguments of ScanState command:" with default "/v:6 /c /localonly /o /uel:60"
+action parameter query "AddExtensions" with description "Additional file extensions to capture:" with default ""
+action parameter query "AddFile" with description "Additional .xml file content to pass to ScanState command:" with default ""
+action parameter query "MDTBundleUrl" with description "Selected MDT Bundle url:" with default ""
+action parameter query "MDTBundleSize" with description "Selected MDT Bundle size:" with default ""
+action parameter query "MDTBundleSHA1" with description "Selected MDT Bundle SHA1:" with default ""
+action parameter query "MDTBundleSHA256" with description "Selected MDT Bundle SHA256:" with default ""
+action parameter query "NetworkShare" with description "Destination folder on network share:" with default ""
+action parameter query "NetworkShareComputer" with description "Hostname or IP of computer of network share:" with default ""
+action parameter query "SambaUser" with description "User for network share:" with default ""
+action parameter query "qSambaPassword" with description "Password for network share:" with default "undefined"
+if {(parameter "qSambaPassword") is "undefined"}
+    //get secured parameter from fixlet
+ 	parameter "SambaPassword" = "{parameter "dSambaPassword"}"
+ else
+    //get secured parameter from query
+    parameter "SambaPassword" = "{parameter "qSambaPassword"}"
+ endif
+
+add prefetch item name=MDTBundle.zip sha1={parameter "MDTBundleSHA1"} size={parameter "MDTBundleSize"} url={parameter "MDTBundleUrl"} sha256={parameter "MDTBundleSHA256"}
+add prefetch item name=unzip-6.0.exe sha1=84debf12767785cd9b43811022407de7413beb6f size=204800 url=http://software.bigfix.com/download/redist/unzip-6.0.exe sha256=2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+end prefetch block
+
+//Verify connection to network share
+if {not exists folder (parameter "NetworkShare")}
+	waithidden cmd.exe /C net use "{parameter "NetworkShare"}" /user:{parameter "NetworkShareComputer"}\{parameter "SambaUser"} {parameter "SambaPassword"} /persistent:no
+endif
+continue if {exists folder (parameter "NetworkShare")}
+
+parameter "osarchitecture" = "{if x64 of operating system then "x64" else "x86"}"
+parameter "usmtFolder" = "{value of variable "SystemDrive" of environment}\BF_USMT"
+waithidden cmd.exe /C "rmdir /s /q {parameter "usmtFolder"} & mkdir {parameter "usmtFolder"}"
+
+parameter "destinationFolder" = "{(parameter "NetworkShare") & "\" & (value of variable "computername" of environment)}"
+
+// Fail before overwriting a previous capture
+continue if {not exists folder (parameter "destinationFolder") whose (exists folder "USMT" of it)}
+if {not exists folder (parameter "destinationFolder")}
+waithidden cmd.exe /C mkdir "{parameter "destinationFolder"}"
+endif
+
+waithidden cmd.exe /C __Download\unzip-6.0.exe -o __Download\MDTBundle.zip -d {parameter "usmtFolder"} > {parameter "usmtFolder"}\usmtFolderUnzip.log
+runhidden cmd.exe /C del __Download\MDTBundle.zip
+
+// Fail if USMT tool cannot be found and store USMT and OS versions
+parameter "usmtPath" = "{parameter "usmtFolder"}\Tools\{if x64 of operating system then "x64" else "x86"}\USMT5"
+continue if {exists folder (parameter "usmtPath") whose (exists file "scanstate.exe" of it)}
+waithidden cmd /c echo usmtVersion:{version of file (matches (regex ".:.+exe") of ((parameter "usmtPath") & "\scanstate.exe"))}> "{parameter "destinationFolder"}\USMTCaptureInfo.txt" 2>&1
+waithidden cmd /c echo osVersion:{version of operating system}>> "{parameter "destinationFolder"}\USMTCaptureInfo.txt" 2>>&1
+waithidden cmd /c echo osArch:{if x64 of operating system then "64-bit" else "32-bit"}>> "{parameter "destinationFolder"}\USMTCaptureInfo.txt" 2>>&1
+
+// Create BFMigUser.xml
+createfile until __EOF
+extensionsToAdd = "{parameter "AddExtensions"}"
+arrExtensions = Split(Replace(extensionsToAdd, ";", ","), ",")
+Set objFSO = CreateObject("Scripting.FileSystemObject")
+strData = objFSO.OpenTextFile("MigUser.xml", 1).ReadAll
+arrLines = Split(strData, vbCrLf)
+Set objFile = objFSO.CreateTextFile("BFMigUser.xml", True)
+lineTemplate = "                        <script>MigXmlHelper.GenerateDrivePatterns (""* [*.bes]"", ""Fixed"")</script>"
+userDataSection =  "<displayName _locID=""miguser.userdata"">User Data</displayName>"
+objectSection = "<objectSet>"
+userDataSectionFound = False
+objectSectionFound = False
+For Each arrLine in arrLines
+	If (InStr(arrLine, userDataSection) > 0) Then
+		userDataSectionFound = True
+	End If
+	If (userDataSectionFound And (InStr(arrLine, objectSection) > 0)) Then
+		objectSectionFound = True
+	End If
+	objFile.WriteLine(arrLine)
+	If (userDataSectionFound And objectSectionFound) Then
+		wscript.echo "Adding file extension .bes"
+		objFile.WriteLine(lineTemplate)
+		For Each arrExtension in arrExtensions
+			arrExtension = trim(arrExtension)
+			wscript.echo "Adding file extension " & arrExtension
+			objFile.WriteLine(Replace(lineTemplate, ".bes", arrExtension))
+		Next
+		userDataSectionFound = False
+	End If
+Next
+objFile.Close
+__EOF
+move __createfile "{(parameter "usmtPath") & "\addCustomExtensions.vbs"}"
+waithidden cmd.exe /C "cd {parameter "usmtPath"} && cscript addCustomExtensions.vbs > addCustomExtensions.log 2>&1"
+
+// Copy xml files to destination for USMT restore
+delete "{(parameter "destinationFolder") & "\BFMigUser.xml"}"
+copy "{(parameter "usmtPath") & "\BFMigUser.xml"}" "{(parameter "destinationFolder") & "\BFMigUser.xml"}"
+delete "{(parameter "destinationFolder") & "\additionalXML.xml"}"
+
+if {(parameter "AddFile") is not ""}
+createfile until __EOF
+{parameter "AddFile"}
+__EOF
+move __createfile "{(parameter "usmtPath") & "\additionalXML.xml"}"
+copy "{(parameter "usmtPath") & "\additionalXML.xml"}" "{(parameter "destinationFolder") & "\additionalXML.xml"}"
+endif
+
+waithidden cmd.exe /C "{parameter "usmtPath"}\scanstate.exe "{parameter "destinationFolder"}" {parameter "Arguments"} /i:{parameter "usmtPath"}\BFMigUser.xml /i:{parameter "usmtPath"}\MigApp.xml {if exists file ((parameter "usmtPath")&"\additionalXML.xml") then "/i:"&(parameter "usmtPath")&"\additionalXML.xml " else ""}{if not ((parameter "Arguments") as lowercase contains "/l:") then "/l:%22" & (parameter "destinationFolder") & "\USMTcapture.log%22"  else ""}{if not ((parameter "Arguments") as lowercase contains "/progress:") then " /progress:%22" & (parameter "destinationFolder") & "\USMTcapture.prg%22"  else ""}"
+
+waithidden cmd.exe /C rmdir /S /Q {parameter "usmtFolder"}
+
+]]></ActionScript>
+			<Settings>
+				<PreActionShowUI>false</PreActionShowUI>
+				<HasRunningMessage>false</HasRunningMessage>
+				<HasTimeRange>false</HasTimeRange>
+				<HasStartTime>false</HasStartTime>
+				<HasEndTime>true</HasEndTime>
+				<EndDateTimeLocalOffset>P2D</EndDateTimeLocalOffset>
+				<HasDayOfWeekConstraint>false</HasDayOfWeekConstraint>
+				<UseUTCTime>false</UseUTCTime>
+				<ActiveUserRequirement>NoRequirement</ActiveUserRequirement>
+				<ActiveUserType>AllUsers</ActiveUserType>
+				<HasWhose>false</HasWhose>
+				<PreActionCacheDownload>false</PreActionCacheDownload>
+				<Reapply>false</Reapply>
+				<HasReapplyLimit>true</HasReapplyLimit>
+				<ReapplyLimit>3</ReapplyLimit>
+				<HasReapplyInterval>false</HasReapplyInterval>
+				<HasRetry>false</HasRetry>
+				<HasTemporalDistribution>false</HasTemporalDistribution>
+				<ContinueOnErrors>true</ContinueOnErrors>
+				<PostActionBehavior Behavior="Nothing"></PostActionBehavior>
+				<IsOffer>false</IsOffer>
+			</Settings>
+			<SettingsLocks>
+				<ActionUITitle>false</ActionUITitle>
+				<PreActionShowUI>false</PreActionShowUI>
+				<PreAction>
+					<Text>false</Text>
+					<AskToSaveWork>false</AskToSaveWork>
+					<ShowActionButton>false</ShowActionButton>
+					<ShowCancelButton>false</ShowCancelButton>
+					<DeadlineBehavior>false</DeadlineBehavior>
+					<ShowConfirmation>false</ShowConfirmation>
+				</PreAction>
+				<HasRunningMessage>false</HasRunningMessage>
+				<RunningMessage>
+					<Text>false</Text>
+				</RunningMessage>
+				<TimeRange>false</TimeRange>
+				<StartDateTimeOffset>false</StartDateTimeOffset>
+				<EndDateTimeOffset>false</EndDateTimeOffset>
+				<DayOfWeekConstraint>false</DayOfWeekConstraint>
+				<ActiveUserRequirement>false</ActiveUserRequirement>
+				<ActiveUserType>false</ActiveUserType>
+				<Whose>false</Whose>
+				<PreActionCacheDownload>false</PreActionCacheDownload>
+				<Reapply>false</Reapply>
+				<ReapplyLimit>false</ReapplyLimit>
+				<RetryCount>false</RetryCount>
+				<RetryWait>false</RetryWait>
+				<TemporalDistribution>false</TemporalDistribution>
+				<ContinueOnErrors>false</ContinueOnErrors>
+				<PostActionBehavior>
+					<Behavior>false</Behavior>
+					<AllowCancel>false</AllowCancel>
+					<Deadline>false</Deadline>
+					<Title>false</Title>
+					<Text>false</Text>
+				</PostActionBehavior>
+				<IsOffer>false</IsOffer>
+				<AnnounceOffer>false</AnnounceOffer>
+				<OfferCategory>false</OfferCategory>
+				<OfferDescriptionHTML>false</OfferDescriptionHTML>
+			</SettingsLocks>
+		</DefaultAction>
+	</Task>
+</BES>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Task>
+		<Title>Get HostList- Windows (PowerShell Scpt)</Title>
+		<Description><![CDATA[<P style="LINE-HEIGHT: 1.6em; WIDOWS: 2; TEXT-TRANSFORM: none; BACKGROUND-COLOR: rgb(246,249,255); FONT-STYLE: normal; TEXT-INDENT: 0px; FONT-FAMILY: Arial, sans-serif, Verdana; WHITE-SPACE: normal; ORPHANS: 2; MARGIN-BOTTOM: 20px; LETTER-SPACING: normal; COLOR: rgb(34,34,34); FONT-SIZE: 14px; FONT-WEIGHT: normal; WORD-SPACING: 0px; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px">This task will test the execution of a powershell command through BigFix on the target system. The&nbsp;powershell version will be reported as the exit code of the action.</P>
+<P style="LINE-HEIGHT: 1.6em; WIDOWS: 2; TEXT-TRANSFORM: none; BACKGROUND-COLOR: rgb(246,249,255); FONT-STYLE: normal; TEXT-INDENT: 0px; FONT-FAMILY: Arial, sans-serif, Verdana; WHITE-SPACE: normal; ORPHANS: 2; MARGIN-BOTTOM: 20px; LETTER-SPACING: normal; COLOR: rgb(34,34,34); FONT-SIZE: 14px; FONT-WEIGHT: normal; WORD-SPACING: 0px; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px">See a related analysis here:&nbsp;<SPAN class=Apple-converted-space>&nbsp;</SPAN><A style="COLOR: rgb(34,34,34); TEXT-DECORATION: underline" href="http://bigfix.me/analysis/details/2994540">http://bigfix.me/analysis/details/2994540</A></P>]]></Description>
+		<Relevance>windows of operating system</Relevance>
+		<Category>Script Deployment</Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-11-30</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Wed, 30 Nov 2016 09:14:57 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">delete C:\windows\temp\bigfix_test_powershell.txt
+
+waithidden powershell -ExecutionPolicy Bypass -command "Get-Host | out-file C:\windows\temp\bigfix_test_powershell.txt"
+
+continue if{ exists (it) whose(it as lowercase starts with "name") of (concatenation of characters whose (it != "%00") of it) whose(it as trimmed string != "") of lines of files "C:\windows\temp\bigfix_test_powershell.txt" }
+
+// The exit code is the major version of powershell or -1 if it cannot find the version #
+exit { (unique value of (it as integer) of preceding texts of firsts "." of (it as string) of pads of (it as trimmed string as version) of following texts of firsts ":" of (it) whose(it as lowercase starts with "version") of (concatenation of characters whose (it != "%00") of it) whose(it as trimmed string != "") of lines of files "C:\windows\temp\bigfix_test_powershell.txt") | -1 }
+</ActionScript>
+			<SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+		</DefaultAction>
+	</Task>
+</BES>

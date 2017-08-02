@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Task>
+		<Title>Uninstall VLC (Older Version) and Re-Install VLC Updated version</Title>
+		<Description>This task has capability to uninstall VLC and Re-Install updated version of it.</Description>
+		<Relevance>(exists folder "C:\Program Files\VideoLAN\VLC") AND (not exists service "BESRelay") and TRUE</Relevance>
+		<Category></Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2017-05-24</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Wed, 24 May 2017 10:55:46 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Uninstall VLC
+copy "C:\Program Files\VideoLAN\VLC\uninstall.exe" "C:\Program Files\uninstall.exe
+run "C:\Program Files\uninstall.exe" /S
+folder delete "C:\Program Files\VideoLAN\VLC"
+folder delete "C:\Program Files\VideoLAN"
+delete "C:\Program Files\uninstall.exe"
+
+//Install VLC
+prefetch d72874065cf35270e4fffc9081434db99140012f sha1:d72874065cf35270e4fffc9081434db99140012f size:30878099 http://HEMERA.mynt.myntra.com:52311/Uploads/d72874065cf35270e4fffc9081434db99140012f/vlc-2.2.5.1-win32.exe.tmp sha256:a1d0e4d0bd4c97fe17571aba3e0a934593349c2ec218a14f71cac84bd5550f99
+extract d72874065cf35270e4fffc9081434db99140012f
+wait __Download\vlc-2.2.5.1-win32.exe /S
+
+</ActionScript>
+			<SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+		</DefaultAction>
+	</Task>
+</BES>

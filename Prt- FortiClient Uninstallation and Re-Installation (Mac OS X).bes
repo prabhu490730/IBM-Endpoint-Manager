@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Baseline>
+		<Title>Prt- FortiClient Uninstallation and Re-Installation (Mac OS X)</Title>
+		<Description><![CDATA[<P>This&nbsp;baseline will be able to do below process:</P>
+<P>1. Uninstall earlier version of FortiClient from Mac OS X</P>
+<P>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Then</P>
+<P>2. Re-Install Lastest (Customized) version of FortiClient to those endpoints.</P>]]></Description>
+		<GroupRelevance JoinByIntersection="false">
+			<SearchComponentPropertyReference PropertyName="OS" Comparison="Contains">
+				<SearchText>Mac</SearchText>
+				<Relevance>exists (operating system) whose (it as string as lowercase contains "Mac" as lowercase)</Relevance>
+			</SearchComponentPropertyReference>
+		</GroupRelevance>
+		<Category></Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-11-09</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Wed, 09 Nov 2016 07:40:29 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<BaselineComponentCollection>
+			<BaselineComponentGroup>
+				<BaselineComponent Name="Uninstall FortiClient- Mac OS X " IncludeInRelevance="false" SourceSiteURL="http://HEMERA.mynt.myntra.com:52311/cgi-bin/bfgather.exe/actionsite" SourceID="13435" ActionName="Action1">
+					<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">//Uninstall FortiClient
+
+wait /bin/sh -c "cd '/Library/Application Support/Fortinet/FortiClient'; ./uninstall"
+wait /bin/rm -rfd "/Library/Application Support/Fortinet"
+wait launchctl unload "/Library/LaunchDaemons/com.fortinet.forticlient.appfw.plist"
+wait launchctl unload "/Library/LaunchDaemons/com.fortinet.forticlient.epctrl.plist"
+wait launchctl unload "/Library/LaunchDaemons/com.fortinet.forticlient.fmon.plist"
+wait launchctl unload "/Library/LaunchDaemons/com.fortinet.forticlient.fssoagent_launchdaemon.plist"
+wait launchctl unload "/Library/LaunchDaemons/com.fortinet.forticlient.servctl.plist"
+wait launchctl unload "/Library/LaunchDaemons/com.fortinet.forticlient.vpn.plist"
+wait launchctl unload "/Library/LaunchDaemons/com.fortinet.forticlient.wf.plist"
+wait launchctl unload "/Library/LaunchAgents/com.fortinet.forticlient.fssoagent_launchagent.plist"
+
+//Stop Process........................!!!
+wait killall FortiClientAgent
+wait killall FortiClient
+
+wait /bin/sh -c "cd '/Library/Application Support/Fortinet/FortiClient'; ./uninstall"
+wait /bin/rm -rfd "/Library/Application Support/Fortinet/FortiClient"
+if {exists folder "/Applications/FortiClient.app"}
+    wait /bin/rm -rfd "/Applications/FortiClient.app"
+endif</ActionScript>
+					<SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+					<Relevance>exists folder "/Applications/FortiClient.app"</Relevance>
+				</BaselineComponent>
+				<BaselineComponent Name="Deploy FortiClient (Custom Profile) - Mac OS X " IncludeInRelevance="false" SourceSiteURL="http://HEMERA.mynt.myntra.com:52311/cgi-bin/bfgather.exe/actionsite" SourceID="13916" ActionName="Action1">
+					<ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[prefetch Myntra-VPN-Customdmg.tmp sha1:9e4fba226f8cc831a78bebbb321b1c7ff9074d29 size:21952631 http://HEMERA.mynt.myntra.com:52311/Uploads/9e4fba226f8cc831a78bebbb321b1c7ff9074d29/Myntra-VPN-Customdmg.tmp sha256:59c715a9214e5feb84cbfcd0aa25a79dea629f19dd799b4917e1ebb3892a429d
+
+extract Myntra-VPN-Customdmg.tmp
+
+wait sh -c "rm '/tmp/Myntra-VPN-Custom.dmg'"
+
+move "{posix path of file "Myntra-VPN-Custom.dmg" of folder "__Download" of client folder of current site}" "/tmp/Myntra-VPN-Custom.dmg"
+
+wait hdiutil attach -quiet -private -mountpoint "/tmp/BESMNTPT08641394618840775" "/tmp/Myntra-VPN-Custom.dmg"
+
+if {not active of action OR (exists file whose (name of it ends with ".mpkg" OR  name of it ends with ".pkg") of it) of folder ("/tmp/" & "BESMNTPT08641394618840775")}
+
+wait installer -pkg "{(if (exists file whose (name of it ends with ".mpkg") of it) then (pathname of file whose (name of it ends with ".mpkg") of it) else (pathname of file whose (name of it ends with ".pkg") of it)) of folder ("/tmp/" & "BESMNTPT08641394618840775") }" -target /
+
+elseif {(exists folder whose (name of it ends with ".mpkg" OR  name of it ends with ".pkg") of it) of folder ("/tmp/" & "BESMNTPT08641394618840775")}
+
+wait installer -pkg "{(if (exists folder whose (name of it ends with ".mpkg") of it) then (pathname of folder whose (name of it ends with ".mpkg") of it) else (pathname of folder whose (name of it ends with ".pkg") of it)) of folder ("/tmp/" & "BESMNTPT08641394618840775") }" -target /
+
+elseif {exists folder whose (name of it ends with ".app" AND exists folder "Contents" whose (exist file "PkgInfo" whose (exists line whose (it = "APPLVISX") of it) of it) of it) of folder ("/tmp/" & "BESMNTPT08641394618840775")}
+
+appendfile tell application "{name of folder whose (name of it ends with ".app") of folder ("/tmp/" & "BESMNTPT08641394618840775")}"
+appendfile DoInstall
+appendfile quit
+appendfile end tell
+
+wait /bin/sh -c "iconv -f UTF-8 -t macintosh {concatenation "\ " of substrings separated by " " of pathname of client folder of current site}/__appendfile > {concatenation "\ " of substrings separated by " " of pathname of client folder of current site}/doinstall.txt"
+
+run "{posix path of framework folder & "/Carbon.framework/Versions/Current/Support/LaunchCFMApp"}" "{(pathname of parent folder of it & "/" & name of it & "/Contents/MacOSClassic/" & preceding text of first ".app" of name of it) of folder whose (name of it ends with ".app") of folder ("/tmp/" & "BESMNTPT08641394618840775")}"
+
+wait /bin/sh -c "osascript {concatenation "\ " of substrings separated by " " of pathname of client folder of current site}/doinstall.txt"
+
+elseif {exists folder whose (name of it ends with ".app") of folder ("/tmp/" & "BESMNTPT08641394618840775")}
+
+wait sh -c "rm '/Applications/{name whose (it ends with ".app") of folders of folder ("/tmp/" & "BESMNTPT08641394618840775")}'"
+wait cp -Rfp "{pathname of folder whose (name of it ends with ".app") of folder ("/tmp/" & "BESMNTPT08641394618840775")}" "/Applications"
+
+else
+
+wait cp -Rpn /tmp/BESMNTPT08641394618840775/* /Applications
+
+endif
+
+wait /bin/sh -c "hdiutil detach -force `mount | grep /tmp/BESMNTPT08641394618840775 | cut -f 1 -d \ | cut -f 3 -d / | head -1`"
+wait sh -c "rm '/tmp/Myntra-VPN-Custom.dmg'"
+]]></ActionScript>
+					<SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+					<Relevance><![CDATA[(((system version >= "10.3" AND system version < "10.4") OR (system version >= "10.4" AND system version < "10.5") OR (system version >= "10.5" AND system version < "10.6") OR (system version >= "10.6" AND system version < "10.7") OR (system version >= "10.7" AND system version < "10.8") OR (system version >= "10.8" AND system version < "10.9") OR (system version >= "10.9" AND system version < "10.10") OR (system version >= "10.10" AND system version <= "10.11") OR (system version >= "10.11" AND system version <= "10.12")) AND TRUE) AND (not exists folder "/Applications/FortiClient.app")]]></Relevance>
+				</BaselineComponent>
+			</BaselineComponentGroup>
+		</BaselineComponentCollection>
+	</Baseline>
+</BES>

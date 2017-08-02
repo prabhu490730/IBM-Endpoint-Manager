@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Task>
+		<Title>Software Distribution - Deploy: MS Office Deployment (Temporary)</Title>
+		<Description><![CDATA[This task will deploy: MS Office Deployment.<BR><BR>This task is applicable on: Windows 7 and Windows 7 x64. ]]></Description>
+		<Relevance>((name of it = "Win7" AND NOT x64 of it) OR (name of it = "Win7" AND x64 of it)) of operating system AND (exists file "C:\Bigfix_OS_Information_powershell.txt")</Relevance>
+		<Category>Software Distribution</Category>
+		<DownloadSize>102</DownloadSize>
+		<Source>Software Distribution Wizard</Source>
+		<SourceID></SourceID>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<MIMEField>
+			<Name>x-fixlet-source</Name>
+			<Value>Software Distribution Wizard</Value>
+		</MIMEField>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Wed, 08 Feb 2017 09:54:39 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here </Link>
+				<PostLink>to initiate the deployment process.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[prefetch 1f7af8b4e309b5ff77c1ded71d93f574ecf9d301 sha1:1f7af8b4e309b5ff77c1ded71d93f574ecf9d301 size:102 http://HEMERA.mynt.myntra.com:52311/Uploads/1f7af8b4e309b5ff77c1ded71d93f574ecf9d301/TestOffice.bat.tmp sha256:9483d5104f915909a072a7e657c8b1f6203fa9b842e1afa3990f914b0641e1d6
+extract 1f7af8b4e309b5ff77c1ded71d93f574ecf9d301
+wait "{pathname of system folder & "\cmd.exe"}" /Q /C "{(pathname of client folder of current site) & "\__Download\TestOffice.bat"}"
+]]></ActionScript>
+			<SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+		</DefaultAction>
+	</Task>
+</BES>

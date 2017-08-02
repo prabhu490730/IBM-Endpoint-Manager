@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Task>
+		<Title>Deploy EL CAPITAN- Mac OS</Title>
+		<Description><![CDATA[This task will deploy EL CAPITAN <BR><BR>This task is applicable on Mac OS X 10.3, Mac OS X 10.4, Mac OS X 10.5, Mac OS X 10.6, Mac OS X 10.7, Mac OS X 10.8, Mac OS X 10.9 and Mac OS X 10.10 ]]></Description>
+		<Relevance><![CDATA[((system version >= "10.3" AND system version < "10.4") OR (system version >= "10.4" AND system version < "10.5") OR (system version >= "10.5" AND system version < "10.6") OR (system version >= "10.6" AND system version < "10.7") OR (system version >= "10.7" AND system version < "10.8") OR (system version >= "10.8" AND system version < "10.9") OR (system version >= "10.9" AND system version < "10.10") OR (system version >= "10.10" AND system version < "10.11")) AND TRUE]]></Relevance>
+		<Category>Software Deployment</Category>
+		<DownloadSize>12884901888</DownloadSize>
+		<Source>Mac Software Deployment Wizard</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-10-05</SourceReleaseDate>
+		<SourceSeverity>High</SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<MIMEField>
+			<Name>x-fixlet-source</Name>
+			<Value>Mac Software Deployment Wizard</Value>
+		</MIMEField>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Wed, 09 Nov 2016 09:30:05 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to initiate the deployment process.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[prefetch 10116dmg.tmp sha1:8c7abc990725634cf4bd8fce717d43115e475332 size:8165095251 http://HEMERA.mynt.myntra.com:52311/Uploads/8c7abc990725634cf4bd8fce717d43115e475332/10116dmg.tmp sha256:43fcbec68b8dd00fe53b84a908cebf69a0cc3b16a3bbb2c225b8e9a24e534038
+
+extract 10116dmg.tmp
+
+wait sh -c "rm '/tmp/10.11.6.dmg'"
+
+move "{posix path of file "10.11.6.dmg" of folder "__Download" of client folder of current site}" "/tmp/10.11.6.dmg"
+
+wait hdiutil attach -quiet -private -mountpoint "/tmp/BESMNTPT6043079980699291" "/tmp/10.11.6.dmg"
+
+if {not active of action OR (exists file whose (name of it ends with ".mpkg" OR  name of it ends with ".pkg") of it) of folder ("/tmp/" & "BESMNTPT6043079980699291")}
+
+wait installer -pkg "{(if (exists file whose (name of it ends with ".mpkg") of it) then (pathname of file whose (name of it ends with ".mpkg") of it) else (pathname of file whose (name of it ends with ".pkg") of it)) of folder ("/tmp/" & "BESMNTPT6043079980699291") }" -target /
+
+elseif {(exists folder whose (name of it ends with ".mpkg" OR  name of it ends with ".pkg") of it) of folder ("/tmp/" & "BESMNTPT6043079980699291")}
+
+wait installer -pkg "{(if (exists folder whose (name of it ends with ".mpkg") of it) then (pathname of folder whose (name of it ends with ".mpkg") of it) else (pathname of folder whose (name of it ends with ".pkg") of it)) of folder ("/tmp/" & "BESMNTPT6043079980699291") }" -target /
+
+elseif {exists folder whose (name of it ends with ".app" AND exists folder "Contents" whose (exist file "PkgInfo" whose (exists line whose (it = "APPLVISX") of it) of it) of it) of folder ("/tmp/" & "BESMNTPT6043079980699291")}
+
+appendfile tell application "{name of folder whose (name of it ends with ".app") of folder ("/tmp/" & "BESMNTPT6043079980699291")}"
+appendfile DoInstall
+appendfile quit
+appendfile end tell
+
+wait /bin/sh -c "iconv -f UTF-8 -t macintosh {concatenation "\ " of substrings separated by " " of pathname of client folder of current site}/__appendfile > {concatenation "\ " of substrings separated by " " of pathname of client folder of current site}/doinstall.txt"
+
+run "{posix path of framework folder & "/Carbon.framework/Versions/Current/Support/LaunchCFMApp"}" "{(pathname of parent folder of it & "/" & name of it & "/Contents/MacOSClassic/" & preceding text of first ".app" of name of it) of folder whose (name of it ends with ".app") of folder ("/tmp/" & "BESMNTPT6043079980699291")}"
+
+wait /bin/sh -c "osascript {concatenation "\ " of substrings separated by " " of pathname of client folder of current site}/doinstall.txt"
+
+elseif {exists folder whose (name of it ends with ".app") of folder ("/tmp/" & "BESMNTPT6043079980699291")}
+
+wait sh -c "rm '/Applications/{name whose (it ends with ".app") of folders of folder ("/tmp/" & "BESMNTPT6043079980699291")}'"
+wait cp -Rfp "{pathname of folder whose (name of it ends with ".app") of folder ("/tmp/" & "BESMNTPT6043079980699291")}" "/Applications"
+
+else
+
+wait cp -Rpn /tmp/BESMNTPT6043079980699291/* /Applications
+
+endif
+
+wait /bin/sh -c "hdiutil detach -force `mount | grep /tmp/BESMNTPT6043079980699291 | cut -f 1 -d \ | cut -f 3 -d / | head -1`"
+wait sh -c "rm '/tmp/10.11.6.dmg'"
+]]></ActionScript>
+			<SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+		</DefaultAction>
+	</Task>
+</BES>

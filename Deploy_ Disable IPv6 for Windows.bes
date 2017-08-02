@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Task>
+		<Title>Deploy: Disable IPv6 for Windows</Title>
+		<Description><![CDATA[This task will edit the Windows Registry.<VALUE> <BR><BR></VALUE>This task is applicable on:&nbsp;Windows 7. ]]></Description>
+		<Relevance>(name of operating system = "Win7") AND (NOT exists value "DisabledComponents" of keys "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters" of native registry)</Relevance>
+		<Relevance>not exists service "BESRelay"</Relevance>
+		<Category>Registry Edit</Category>
+		<DownloadSize>0</DownloadSize>
+		<Source>Windows Registry Wizard</Source>
+		<SourceID></SourceID>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<MIMEField>
+			<Name>x-fixlet-source</Name>
+			<Value>Windows Registry Wizard</Value>
+		</MIMEField>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Sat, 17 Dec 2016 04:11:59 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink><![CDATA[Click&nbsp;]]></PreLink>
+				<Link><![CDATA[here&nbsp;]]></Link>
+				<PostLink>to initiate the deployment process.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">action uses wow64 redirection false
+
+delete __createfile
+delete wizardedit.reg
+
+createfile until @end_create_reg_file
+Windows Registry Editor Version 5.00
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters]
+"DisabledComponents"=dword:ffffffff
+@end_create_reg_file
+
+move __createfile wizardedit.reg
+waithidden regedit /s "wizardedit.reg"</ActionScript>
+			<SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+		</DefaultAction>
+	</Task>
+</BES>

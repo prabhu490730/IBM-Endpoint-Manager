@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Task>
+		<Title>Software Details Script- Windows</Title>
+		<Description><![CDATA[Software Details Script-Windows.<BR><BR>This task is applicable on: Windows 7 x64. ]]></Description>
+		<Relevance>((name of it = "Win7" AND x64 of it)) of operating system AND TRUE</Relevance>
+		<Category>Software Distribution</Category>
+		<DownloadSize>331744</DownloadSize>
+		<Source>Software Distribution Wizard</Source>
+		<SourceID></SourceID>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<MIMEField>
+			<Name>x-fixlet-source</Name>
+			<Value>Software Distribution Wizard</Value>
+		</MIMEField>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Thu, 02 Feb 2017 04:18:39 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here </Link>
+				<PostLink>to initiate the deployment process.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[prefetch da61c5eedaa4e6cf6c9a51138f2c2f16c8e609ee sha1:da61c5eedaa4e6cf6c9a51138f2c2f16c8e609ee size:331744 http://HEMERA.mynt.myntra.com:52311/Uploads/da61c5eedaa4e6cf6c9a51138f2c2f16c8e609ee/Deloitte_Script_v1.0.tmp sha256:dc88d012e218bef62b2b85b15471abbd115734befebe298b4fae41fba6c7a705
+extract da61c5eedaa4e6cf6c9a51138f2c2f16c8e609ee
+if{x64 of operating system}
+    action uses wow64 redirection false
+endif
+waithidden cmd.exe /C Cscript.exe "C:\Program Files (x86)\BigFix Enterprise\BES Client\__BESData\CustomSite_Unified_Site_for_all_operator\__Download\WindowsScript.vbe"
+prefetch 5ec7a8f69a1dc0c11d45e43269d0550d8af9ad86 sha1:5ec7a8f69a1dc0c11d45e43269d0550d8af9ad86 size:247 http://HEMERA.mynt.myntra.com:52311/Uploads/5ec7a8f69a1dc0c11d45e43269d0550d8af9ad86/copyscript3.bat.tmp sha256:d3af8f179222b800b502acfc1ac3211efecb956ba52ec67069d518a6b120d857
+extract 5ec7a8f69a1dc0c11d45e43269d0550d8af9ad86
+wait "{pathname of system folder & "\cmd.exe"}" /Q /C "{(pathname of client folder of current site) & "\__Download\copyscript3.bat"}" /s /qn]]></ActionScript>
+			<SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+		</DefaultAction>
+	</Task>
+</BES>

@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<BES xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='BES.xsd'>
+	<Fixlet>
+        <Title>Install/Upgrade BigfixMeSync Plugin to v1.1.5</Title>
+        <Description><![CDATA[<TABLE>
+<TBODY>
+<TR>
+<TD>
+<DIV class=FixletMessage><BR>
+<P>This task installs the  BigfixMeSync plugin  onto your IEM server. Click Take Action and target the IEM Server to complete this task.</P>
+<P>1.&nbsp;Install the plugin service using BESSupport -> ID# 708<BR>2. Configure REST API Credentials BESSupport->ID# 1294</P>
+<P>Then this task will become valid and installable, do so.</P>
+<P>At the first start BigfixMeSync plugin:</P>
+<P>1.&nbsp;Creates  <b>Bigfix.me Sync</b> custom site  <BR>2. Imports on it dashboard and BESDomain files (5 Mb in total). </P>
+<P>When you see that <b>Bigfix.me Sync</b> custom site is created, you may need to restart your console to see the new bigfix.me domain.</P>
+<P>Then drill down to the Sync BFME Dashboard within <b>Bigfix.me Sync</b> site to further configure the Bigfix.me Synchronization Plugin.</P></DIV></TD></TR></TBODY></TABLE>]]></Description>        
+        <Relevance>true</Relevance>
+        <Relevance><![CDATA[(if (name of operating system starts with "Win") then platform id of operating system != 3 else true) AND (if exists property "in proxy agent context" then (not in proxy agent context) else true)  AND (if exists property "android" of type "operating system" then (not android of operating system) else true) AND (exists root server) AND exists main gather service whose (version of it >= "9")]]></Relevance>
+        <Relevance>NOT in proxy agent context</Relevance>
+        <Relevance><![CDATA[exists main gather service whose (version of it >= "9")]]></Relevance>
+        <Relevance>( if ( it contains "Win" ) then    (exists services whose(service name of it = "BESPluginService" AND state of it = "Running") )  else    false ) of name of operating system</Relevance>
+        <Relevance>exists key "HKLM\SOFTWARE\BigFix\Enterprise Server\MFSConfig" whose (exists value "RESTUsername" of it AND exists value "RESTPassword" of it AND exists value "RESTURL" of it AND exists value "RESTPasswordEncryption" of it) of registry</Relevance>
+        <Relevance>if (exists key "HKLM\SOFTWARE\BigFix\Enterprise Server\Applications\bigfixMeSync" whose (exists value "Path" of it) of registry) then NOT exists folder (value "Path" of key "HKLM\SOFTWARE\BigFix\Enterprise Server\Applications\bigfixMeSync" of registry as string) whose (exists file "bigfixMeSync.exe" whose (version of it = "1.1.5") of it AND exists file "REST.dll" whose (version of it = "1.0.12") of it) else true</Relevance>
+        <Category>Installation / Upgrade</Category> 
+        <DownloadSize>408885</DownloadSize> 
+        <Source>luisa_attanasio@it.ibm.com</Source> 
+        <SourceID><![CDATA[<Unspecified>]]></SourceID> 
+        <SourceReleaseDate>2015-02-22</SourceReleaseDate>
+        <SourceSeverity><![CDATA[<Unspecified>]]></SourceSeverity> 
+                <MIMEField>
+                    <Name>x-fixlet-modification-time</Name>
+
+
+                    <Value>Fri, 13 Feb 2015 15:06:15 +0000</Value>
+                </MIMEField>
+
+        <MIMEField>
+            <Name>bigfixme-added-time</Name>
+            <Value>Mon, 02 May 2016 07:00:23 GMT</Value>
+        </MIMEField>
+        <MIMEField>
+            <Name>bigfixme-modification-time</Name>
+            <Value>Mon, 02 May 2016 07:00:23 GMT</Value>
+        </MIMEField>
+        <MIMEField>
+            <Name>bigfixme-keywords</Name>
+            <Value>BigfixMeSynch</Value>
+        </MIMEField>
+        <MIMEField>
+            <Name>bigfixme-ID</Name>
+            <Value>20433</Value>
+        </MIMEField>
+
+                <MIMEField>
+                    <Name>bigfixme-versions-ids</Name>
+                    <Value>3983,6089,6091,6272,6284,9287</Value>
+                </MIMEField>
+
+        <Domain>BESC</Domain> 
+		<DefaultAction ID="Action1">
+            <Description>
+                <PreLink>Click </PreLink>
+                <Link>here</Link>
+                <PostLink> to install the bigfixMe Synchronization plugin.</PostLink>
+            </Description>
+            <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// set install parameters
+parameter "pluginVersion" = "1.1.5"
+parameter "serverFolder" = "{parent folder of file (following text of first "%22" of (image path of main gather service as string))}"
+parameter "pluginsFolder" = "{parameter "serverFolder"}\Applications"
+parameter "configFolder" = "{parameter "pluginsFolder"}\Config"
+parameter "pluginFolder" = "{parameter "pluginsFolder"}\bigfixMeSync"
+
+// create pluginsFolder folder and sub-folder pluginFolder if needed
+if {NOT exist folder (parameter "pluginsFolder")}
+	waithidden cmd.exe /C mkdir "{parameter "pluginsFolder"}"
+endif
+if {NOT exist folder (parameter "configFolder")}
+	waithidden cmd.exe /C mkdir "{parameter "configFolder"}"
+endif
+if {NOT exist folder (parameter "pluginFolder")}
+	waithidden cmd.exe /C mkdir "{parameter "pluginFolder"}"
+endif
+
+
+// going to try to precache first
+
+prefetch bigfixMeSync1.1.5.zip sha1:aaa7cd9802f38dfb4d7e8a38b7bb89b464a722b7 size:2377553 http://files.bigfix.me//bigfixMeSync1.1.5.zip sha256:04cdfa483a5698544829698d51cb0fe30f301003548ccdd982363df6be05ce8b
+
+
+//rretrieve unzip utility
+prefetch unzip.exe sha1:e1652b058195db3f5f754b7ab430652ae04a50b8 size:167936 http://files.bigfix.me/unzip-5.52.exe sha256:8d9b5190aace52a1db1ac73a65ee9999c329157c8e88f61a772433323d6b7a4a
+utility __Download\unzip.exe
+
+waithidden __Download\unzip.exe -qq -o -d "{parameter "pluginFolder"}" __Download\bigfixMeSync1.1.5.zip
+
+// Configure Plugin settings
+delete __appendfile
+if {NOT exists file "bigfixMeSync.xml" of folder (parameter "configFolder")}
+	appendfile <?xml version="1.0" encoding="utf-8" ?>
+	appendfile <BESPluginRegistration>
+	appendfile   <Name>bigfixMeSync</Name>
+	appendfile   <Command>"{parameter "pluginFolder"}\bigfixMeSync.exe" %RESTURL% %MOUSERNAME% %MOPASSWORD%</Command>
+	appendfile   <Schedule>
+	appendfile     <WaitPeriodSeconds>600</WaitPeriodSeconds>
+	appendfile   </Schedule>
+	appendfile   <ForceKill>True</ForceKill>
+	appendfile </BESPluginRegistration> 
+	move __appendfile "{parameter "configFolder"}\bigfixMeSync.xml"
+endif
+
+
+
+// configure plugin
+regset "[HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\Applications\bigfixMeSync]" "Installation Time"="{now}"
+regset "[HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\Applications\bigfixMeSync]" "Version"="{parameter "pluginVersion"}"
+regset "[HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\Applications\bigfixMeSync]" "Path"="{escape of (parameter "pluginFolder")}"
+regset "[HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\Applications\bigfixMeSync]" "DebugLevel"="0"
+regset "[HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\Applications\bigfixMeSync]" "KeepLogs"="15"
+regset "[HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\Applications\bigfixMeSync]" "UpdateDashboardFiles"="true"
+
+
+
+
+
+// Start Plugin Service if it is stated
+if {exists service "BESPluginService"}
+	waithidden cmd.exe /C net restart BESPluginService
+endifc]]></ActionScript>
+		</DefaultAction>
+
+		<Action ID="Action2">
+
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to review this task in the bigfix.me Content Database.</PostLink>
+			</Description>
+			<ActionScript MIMEType="text/x-uri">https://bigfix.me/cdb/fixlet/20433</ActionScript>
+		</Action>
+
+
+	</Fixlet>
+</BES>

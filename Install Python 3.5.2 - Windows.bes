@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Task>
+		<Title>Install Python 3.5.2 - Windows</Title>
+		<Description><![CDATA[<P>This&nbsp;task will install Python directly from Python repository server and Install on End-User.&nbsp;</P>
+<P><STRONG>Testing:</STRONG></P>
+<P><STRONG>Server Automation Implementation</STRONG></P>]]></Description>
+		<GroupRelevance JoinByIntersection="false">
+			<SearchComponentPropertyReference PropertyName="OS" Comparison="Contains">
+				<SearchText>win7</SearchText>
+				<Relevance>exists (operating system) whose (it as string as lowercase contains "win7" as lowercase)</Relevance>
+			</SearchComponentPropertyReference>
+		</GroupRelevance>
+		<Category>Installation</Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-11-17</SourceReleaseDate>
+		<SourceSeverity>Low</SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Fri, 03 Feb 2017 08:03:37 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Install Python for Windows
+prefetch python-3.5.2.exe sha1:3873deb137833a724be8932e3ce659f93741c20b size:29269656 http://www.python.org/ftp/python/3.5.2/python-3.5.2.exe sha256:529c46b9fd3dcf83029b8bfc95034e640ea2c69835b1aa4b75edeec8de764193
+waithidden "__Download\python-3.5.2.exe" /S /quiet InstallAllUsers=1 PrependPath=1 Include_test=0 
+</ActionScript>
+			<SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+		</DefaultAction>
+	</Task>
+</BES>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Task>
+		<Title>VLC Deployment- Separate action for Uninstall (Older Version) and ReInstall (Stable Version)</Title>
+		<Description><![CDATA[<P>This task has capability to uninstall VLC and Re-Install updated version of it. </P>
+<P><FONT color=#ff0000><STRONG><U>Note: You're seeing the list of endpoints under applicable computers because Relevance only fetch those machines which have any version of VLC Installed. Action 2 will be only used on the machine where VLC isn't available.</U></STRONG></FONT></P>
+<P>&nbsp;</P>]]></Description>
+		<Relevance>((exists folder "C:\Program Files\VideoLAN\VLC") or (exists folder "C:\Program Files (x86)\VideoLAN\VLC"))</Relevance>
+		<Relevance>(not exists service "BESRelay")</Relevance>
+		<Category></Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2017-05-24</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Thu, 01 Jun 2017 08:06:47 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<Action ID="Action1">
+			<Description>
+				<PreLink><![CDATA[<FONT color=#ff0000><STRONG>Click </STRONG></FONT>]]></PreLink>
+				<Link><![CDATA[<FONT color=#ff0000><STRONG>here</STRONG></FONT>]]></Link>
+				<PostLink><![CDATA[<FONT color=#ff0000><STRONG> to Uninstall earlier version of VLC.</STRONG></FONT>]]></PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Uninstall VLC
+if {(exists folder "C:\Program Files\VideoLAN\VLC")}
+	wait "C:\Program Files\uninstall.exe" /S
+	folder delete "C:\Program Files\VideoLAN\VLC"
+	folder delete "C:\Program Files\VideoLAN"
+else 
+	wait "C:\Program Files (x86)\VideoLAN\VLC\uninstall.exe" /S
+	folder delete "C:\Program Files (x86)\VideoLAN\VLC"
+	folder delete "C:\Program Files (x86)\VideoLAN"
+endif
+
+</ActionScript>
+			<SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+		</Action>
+		<Action ID="Action2">
+			<Description>
+				<PreLink><![CDATA[<FONT color=#0000ff><STRONG>Click </STRONG></FONT>]]></PreLink>
+				<Link><![CDATA[<STRONG>here</STRONG>]]></Link>
+				<PostLink><![CDATA[<FONT color=#0000ff><STRONG> to Install stable version (2.2.5.1) of VLC.</STRONG></FONT>]]></PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">//Install VLC
+prefetch d72874065cf35270e4fffc9081434db99140012f sha1:d72874065cf35270e4fffc9081434db99140012f size:30878099 http://HEMERA.mynt.myntra.com:52311/Uploads/d72874065cf35270e4fffc9081434db99140012f/vlc-2.2.5.1-win32.exe.tmp sha256:a1d0e4d0bd4c97fe17571aba3e0a934593349c2ec218a14f71cac84bd5550f99
+extract d72874065cf35270e4fffc9081434db99140012f
+wait __Download\vlc-2.2.5.1-win32.exe /S
+</ActionScript>
+			<SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+		</Action>
+	</Task>
+</BES>

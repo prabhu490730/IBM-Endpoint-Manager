@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Task>
+		<Title>Task- Uninstall FortiClient Global for Windows OS</Title>
+		<Description><![CDATA[<FONT size=2 face="Gill Sans MT">This task will be able to uninstall FortiClient Product from&nbsp;the endpoints. Applicable only for <STRONG>Windows OS. </STRONG>Action under development phase and will be going through many testing scenario. </FONT>]]></Description>
+		<Relevance>exists keys whose (name of it starts with "{" and value "DisplayName" of it as string = "FortiClient") of key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of native registry</Relevance>
+		<Category>Uninstallation Task</Category>
+		<Source>Internal use</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2016-10-18</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Tue, 18 Oct 2016 06:55:43 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Uninstall FortiClient
+//Node: HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\
+//Product Name: FortiClient Services
+//Publisher: FortiClient
+action uses wow64 redirection false    
+waithidden "{pathname of system folder}\msiexec.exe" /x{name of key whose (value "DisplayName" of it as string = "FortiClient" and name of it starts with "{") of key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of native registry} /qn /norestart</ActionScript>
+			<SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+		</DefaultAction>
+	</Task>
+</BES>
